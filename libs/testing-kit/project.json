@@ -1,0 +1,50 @@
+{
+  "name": "testing-kit",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/testing-kit/src",
+  "prefix": "ngx-shared",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/testing-kit/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/testing-kit/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/testing-kit/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/testing-kit/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/testing-kit/**/*.ts",
+          "libs/testing-kit/**/*.html"
+        ]
+      }
+    }
+  }
+}
