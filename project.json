@@ -1,0 +1,23 @@
+{
+  "name": "workspace",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "release": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "syncVersions": true,
+        "preset": "conventional",
+        "skipProjectChangelog": true,
+        "tagPrefix": "",
+        "commitMessageFormat": "chore(${projectName}): release version ${version} [ci skip]",
+        "push": true
+      }
+    },
+    "deploy-packages": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx run-many --target deploy --parallel 1"
+      }
+    }
+  }
+}

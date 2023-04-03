@@ -42,6 +42,12 @@
       "options": {
         "lintFilePatterns": ["libs/sentry/**/*.ts", "libs/sentry/**/*.html"]
       }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
     }
   }
 }

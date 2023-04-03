@@ -1,0 +1,55 @@
+version: 2.1
+
+shared: &shared
+  context: org-global
+  filters:
+    tags:
+      only:
+        - /.*/
+
+tags: &tags
+  context: org-global
+  filters:
+    branches:
+      ignore:
+        - /.*/
+    tags:
+      only:
+        - /.*/
+
+orbs:
+  node: circleci/node@5
+
+jobs:
+  test:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          command: npx nx run-many --target lint
+      - run:
+          command: npx nx run-many --target test
+      - run:
+          command: npx nx run-many --target e2e --parallel 1 --runInBand --verbose
+
+  deploy:
+    executor: node/default
+    steps:
+      # Set NPM token to be able to publish
+      - checkout
+      - node/install-packages
+      - run: ls -la
+      - run: echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
+      - run: npm whoami
+      - run: npx nx run workspace:deploy-packages
+
+workflows:
+  default:
+    jobs:
+      - test:
+          <<: *shared
+      - deploy:
+          <<: *tags
+          requires:
+            - test

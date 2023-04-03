@@ -45,6 +45,12 @@
           "libs/testing-kit/**/*.html"
         ]
       }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
     }
   }
 }
