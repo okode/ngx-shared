@@ -21,7 +21,7 @@ export class SentryErrorHandler implements ErrorHandler {
     }
 
     this.sentryErrorReporterService.sendError(error);
-    if (this.sentryConfig.logErrors) {
+    if (this.sentryConfig.logErrors === undefined || this.sentryConfig.logErrors) {
       console.error('ErrorHandler:', error);
     }
   }

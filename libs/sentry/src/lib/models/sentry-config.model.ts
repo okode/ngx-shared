@@ -1,20 +1,20 @@
 export interface SentryConfig {
   dns: string;
   enabled: boolean;
-  env?: string;
-  release?: string;
-  denyUrls: DenyUrlsConfig;
-  debug: boolean;
-  logErrors: boolean;
+  env: string;
+  release: string;
+  denyUrlsConfig?: DenyUrlsConfig;
+  debug?: boolean;
+  logErrors?: boolean;
   tracesSampleRate?: number;
-  integrationsConfig: {
-    browserTracing: {
-      tracePropagationTargets: string[];
+  integrationsConfig?: {
+    browserTracing?: {
+      tracePropagationTargets?: string[];
     }
-  }
+  };
 }
 
 export interface DenyUrlsConfig {
-  enabledDefault: boolean;
+  useDefaultUrls: boolean;
   additionalUrls?: RegExp[];
 }

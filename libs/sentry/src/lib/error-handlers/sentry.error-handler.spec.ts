@@ -3,16 +3,17 @@ import { SENTRY_CONFIG } from '../tokens/sentry-config.token';
 import { SentryErrorReporterService } from '../services/sentry-error-reporter.service';
 import { SentryErrorHandler } from './sentry.error-handler';
 import { GlobalMocks } from '@okode/ngx-testing-kit';
+import { SentryConfig } from '../models/sentry-config.model';
 
-const sentryConfigMock = {
+const sentryConfigMock: SentryConfig = {
   dns: 'https://a3972e67a7774359b88c1813a69d64a4@o4504876739657728.ingest.sentry.io/4504876742606848',
   enabled: true,
   debug: true,
   env: 'testing',
   release: '2',
-  tracesSampleRate: '1',
-  denyUrls: {
-    enabledDefault: false,
+  tracesSampleRate: 1,
+  denyUrlsConfig: {
+    useDefaultUrls: false,
     additionalUrls: [/^example1:\/\//i, /^example2:\/\//i, /^example3:\/\//i],
   },
   integrationsConfig: {
@@ -84,6 +85,45 @@ describe('ErrorHandlerService', () => {
       spectator.service.handleError(undefined);
 
       expect(errorReporterSpy.sendError).toHaveBeenCalledWith(undefined);
+    });
+
+    it('should log error on console if "logErrors" is undefined', () => {
+      const config: SentryConfig = { ...sentryConfigMock, logErrors: undefined };
+      const spectator = createService({
+        providers: [{ provide: SENTRY_CONFIG, useValue: config }],
+      });
+      const consoleErrorSpy = jest.spyOn(console, 'error');
+
+      const jsError = new Error('testError');
+      spectator.service.handleError(jsError);
+
+      expect(consoleErrorSpy).toHaveBeenCalled();
+    });
+
+    it('should log error on console if "logErrors" is true', () => {
+      const config: SentryConfig = { ...sentryConfigMock, logErrors: true };
+      const spectator = createService({
+        providers: [{ provide: SENTRY_CONFIG, useValue: config }],
+      });
+      const consoleErrorSpy = jest.spyOn(console, 'error');
+
+      const jsError = new Error('testError');
+      spectator.service.handleError(jsError);
+
+      expect(consoleErrorSpy).toHaveBeenCalled();
+    });
+
+    it('should not log error on console if "logErrors" is false', () => {
+      const config: SentryConfig = { ...sentryConfigMock, logErrors: false };
+      const spectator = createService({
+        providers: [{ provide: SENTRY_CONFIG, useValue: config }],
+      });
+      const consoleErrorSpy = jest.spyOn(console, 'error');
+
+      const jsError = new Error('testError');
+      spectator.service.handleError(jsError);
+
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
   });
 });

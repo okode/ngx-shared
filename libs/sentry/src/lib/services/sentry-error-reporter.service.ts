@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Inject, Injectable, Injector, INJECTOR, PLATFORM_ID } from '@angular/core';
 import { from } from 'rxjs';
 import { filter, shareReplay } from 'rxjs/operators';
-import { SentryConfig, DenyUrlsConfig } from '../models/sentry-config.model';
+import { SentryConfig } from '../models/sentry-config.model';
 import { SENTRY_CONFIG } from '../tokens/sentry-config.token';
 import { getHeadersAsString, serializeBodyError } from '../utils/http.utils';
 
@@ -38,17 +38,17 @@ const defaultDenyUrls: ReadonlyArray<RegExp> = [
 export class SentryErrorReporterService {
   private static readonly IE_ERROR_CODE = 'INTERNET_EXPLORER_ERROR';
   private static readonly CONTEXT_FIELDS = {
-    rawError: 'sdm.rawError',
-    httpReq: 'sdm.httpRequest',
-    httpRes: 'sdm.httpResponse',
+    rawError: 'customctx.rawError',
+    httpReq: 'customctx.httpRequest',
+    httpRes: 'customctx.httpResponse',
   } as const;
   private static readonly TAGS = {
-    errorType: 'sdm.errorType',
-    customErrorCode: 'sdm.customErrorCode',
+    errorType: 'customctx.errorType',
+    customErrorCode: 'customctx.customErrorCode',
     httpError: {
-      url: 'sdm.httpError.url',
-      method: 'sdm.httpError.method',
-      status: 'sdm.httpError.status',
+      url: 'customctx.httpError.url',
+      method: 'customctx.httpError.method',
+      status: 'customctx.httpError.status',
     },
   } as const;
   private static readonly ERROR_TYPE_TAG_VALUES = {
@@ -224,23 +224,29 @@ export class SentryErrorReporterService {
       console.log('SentryReporter: initializing sentry', this.sentryConfig);
     }
 
+    const integrations = [];
+    const browserTracingConfig = this.sentryConfig.integrationsConfig?.browserTracing;
+    if (browserTracingConfig) {
+      // Registers and configures the Tracing integration,
+      // which automatically instruments your application to monitor its
+      // performance, including custom Angular routing instrumentation
+      integrations.push(
+        new BrowserTracing({
+          tracePropagationTargets: browserTracingConfig.tracePropagationTargets ?? [],
+          routingInstrumentation: sentry.routingInstrumentation,
+        })
+      );
+    }
+
     sentry.init({
       dsn: this.sentryConfig.dns,
       enabled: this.sentryConfig.enabled,
       environment: this.sentryConfig.env,
       release: this.sentryConfig.release,
       dist: 'web',
-      denyUrls: this.getDenyUrls(this.sentryConfig.denyUrls),
-      integrations: [
-        // Registers and configures the Tracing integration,
-        // which automatically instruments your application to monitor its
-        // performance, including custom Angular routing instrumentation
-        new BrowserTracing({
-               tracePropagationTargets: this.sentryConfig.integrationsConfig?.browserTracing.tracePropagationTargets,
-          routingInstrumentation: sentry.routingInstrumentation,
-        }),
-      ],
+      denyUrls: this.getDenyUrls(),
       tracesSampleRate: this.sentryConfig.tracesSampleRate,
+      integrations,
     });
     return sentry;
   }
@@ -278,15 +284,14 @@ export class SentryErrorReporterService {
     );
   }
 
-  private getDenyUrls(denyUrls: DenyUrlsConfig) {
-    if (denyUrls.enabledDefault && !denyUrls.additionalUrls) {
+  private getDenyUrls() {
+    if (!this.sentryConfig.denyUrlsConfig) {
       return defaultDenyUrls as RegExp[];
     }
-    if (denyUrls.enabledDefault && denyUrls.additionalUrls) {
-      return defaultDenyUrls.concat(denyUrls.additionalUrls);
-    } else {
-      return denyUrls.additionalUrls;
-    }
+
+    const urls = this.sentryConfig.denyUrlsConfig.useDefaultUrls ? defaultDenyUrls : [];
+    const urlsWithAdditional = [...urls, ...this.sentryConfig.denyUrlsConfig.additionalUrls ?? []];
+    return urlsWithAdditional;
   }
 
   private logError(message: string) {
