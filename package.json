@@ -2,7 +2,10 @@
   "name": "ngx-shared",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start:example-app": "nx serve example-app",
+    "test:sentry-library": "nx test sentry-library"
+  },
   "private": true,
   "devDependencies": {
     "@angular-devkit/build-angular": "~15.2.0",
