@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'example-app';
+
+  public throwTestError(): void {
+    throw new Error("Sentry Test Error");
+  }
 }
