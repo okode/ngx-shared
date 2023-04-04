@@ -285,11 +285,10 @@ export class SentryErrorReporterService {
     }
 
     const urls = this.sentryConfig.denyUrlsConfig.useDefaultUrls ? defaultDenyUrls : [];
-    const urlsWithAdditional = [
+    return [
       ...urls,
       ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? []),
     ];
-    return urlsWithAdditional;
   }
 
   private logError(message: string) {

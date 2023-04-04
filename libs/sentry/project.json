@@ -56,8 +56,9 @@
           "sonar.links.ci": "https://circleci.com/gh/okode/generacionyoung",
           "sonar.links.scm": "https://github.com/okode/generacionyoung",
           "sonar.sourceEncoding": "UTF-8",
-          "sonar.exclusions": "**/*.spec.ts,libs/**/index.ts",
+          "sonar.exclusions": "**/*.spec.ts,libs/**/index.ts,**/*.spec-utils.ts",
           "sonar.test.inclusions": "**/*.spec.ts",
+          "sonar.coverage.exclusions": "**/*.module.ts,libs/testing-kit/**/*",
           "sonar.typescript.lcov.reportPaths": "coverage/**/lcov.info",
           "sonar.eslint.reportPaths": "[lint-results/{projectRoot}/lint-results.json]"
         }
