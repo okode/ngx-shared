@@ -2,8 +2,7 @@
   "name": "ngx-shared",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {
-  },
+  "scripts": {},
   "private": true,
   "devDependencies": {
     "@angular-devkit/build-angular": "~15.2.0",
