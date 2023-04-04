@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'ngx-shared-app',
+  displayName: 'sentry-app',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/ngx-shared-app',
+  coverageDirectory: '../../coverage/apps/sentry-app',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

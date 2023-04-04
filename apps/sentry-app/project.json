@@ -1,25 +1,25 @@
 {
-  "name": "ngx-shared-app",
+  "name": "sentry-app",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "ngx-shared",
-  "sourceRoot": "apps/ngx-shared-app/src",
+  "sourceRoot": "apps/sentry-app/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/ngx-shared-app",
-        "index": "apps/ngx-shared-app/src/index.html",
-        "main": "apps/ngx-shared-app/src/main.ts",
+        "outputPath": "dist/apps/sentry-app",
+        "index": "apps/sentry-app/src/index.html",
+        "main": "apps/sentry-app/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/ngx-shared-app/tsconfig.app.json",
+        "tsConfig": "apps/sentry-app/tsconfig.app.json",
         "assets": [
-          "apps/ngx-shared-app/src/favicon.ico",
-          "apps/ngx-shared-app/src/assets"
+          "apps/sentry-app/src/favicon.ico",
+          "apps/sentry-app/src/assets"
         ],
-        "styles": ["apps/ngx-shared-app/src/styles.scss"],
+        "styles": ["apps/sentry-app/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -53,10 +53,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "ngx-shared-app:build:production"
+          "browserTarget": "sentry-app:build:production"
         },
         "development": {
-          "browserTarget": "ngx-shared-app:build:development"
+          "browserTarget": "sentry-app:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -64,7 +64,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "ngx-shared-app:build"
+        "browserTarget": "sentry-app:build"
       }
     },
     "lint": {
@@ -72,8 +72,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "apps/ngx-shared-app/**/*.ts",
-          "apps/ngx-shared-app/**/*.html"
+          "apps/sentry-app/**/*.ts",
+          "apps/sentry-app/**/*.html"
         ]
       }
     },
@@ -81,7 +81,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/ngx-shared-app/jest.config.ts",
+        "jestConfig": "apps/sentry-app/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
