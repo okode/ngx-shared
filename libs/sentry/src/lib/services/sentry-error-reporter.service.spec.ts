@@ -4,16 +4,17 @@ import * as Sentry from '@sentry/angular-ivy';
 import { SentryErrorReporterService } from './sentry-error-reporter.service';
 import { fakeAsync, flushMicrotasks } from '@angular/core/testing';
 import { fakeTimer, mockPlatform } from '@okode/ngx-testing-kit';
+import { SentryConfig } from '../models/sentry-config.model';
 
-const sentryConfigMock = {
+const sentryConfigMock: SentryConfig = {
   dns: 'https://a3972e67a7774359b88c1813a69d64a4@o4504876739657728.ingest.sentry.io/4504876742606848',
   enabled: true,
   debug: true,
   env: 'testing',
   release: '2',
-  tracesSampleRate: '1',
-  denyUrls: {
-    enabledDefault: false,
+  tracesSampleRate: 1,
+  denyUrlsConfig: {
+    useDefaultUrls: false,
     additionalUrls: [/^example1:\/\//i, /^example2:\/\//i, /^example3:\/\//i],
   },
   integrationsConfig: {
