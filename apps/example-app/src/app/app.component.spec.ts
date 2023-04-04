@@ -10,7 +10,7 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
-  it('should exists', () => {
+  it('should be created', () => {
     const fixture = TestBed.createComponent(AppComponent);
     expect(fixture).toBeTruthy();
   });
