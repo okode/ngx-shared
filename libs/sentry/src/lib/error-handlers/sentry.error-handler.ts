@@ -7,7 +7,6 @@ import { SENTRY_CONFIG } from '../tokens/sentry-config.token';
   providedIn: 'root',
 })
 export class SentryErrorHandler implements ErrorHandler {
-
   constructor(
     private readonly sentryErrorReporterService: SentryErrorReporterService,
     @Inject(SENTRY_CONFIG) private readonly sentryConfig: SentryConfig
@@ -28,6 +27,6 @@ export class SentryErrorHandler implements ErrorHandler {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private isLoadingChunkError(errorCandidate?: Error) {
-    return (errorCandidate && /Loading chunk \d+ failed/.test(errorCandidate.message));
+    return errorCandidate && /Loading chunk \d+ failed/.test(errorCandidate.message);
   }
 }

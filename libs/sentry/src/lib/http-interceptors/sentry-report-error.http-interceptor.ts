@@ -11,7 +11,6 @@ import { SentryErrorReporterService } from '../services/sentry-error-reporter.se
 
 @Injectable()
 export class SentryReportErrorHttpInterceptor implements HttpInterceptor {
-
   constructor(private readonly sentryErrorReporter: SentryErrorReporterService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
