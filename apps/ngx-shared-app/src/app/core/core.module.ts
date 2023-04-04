@@ -18,8 +18,8 @@ import packageInfo from '@package';
       env: environment.envName,
       release: packageInfo.version,
       tracesSampleRate: environment.sentry.sampleRate,
-      denyUrls: {
-        enabledDefault: true,
+      denyUrlsConfig: {
+        useDefaultUrls: true,
         additionalUrls: [
           /^example1:\/\//i,
           /^example2:\/\//i,
