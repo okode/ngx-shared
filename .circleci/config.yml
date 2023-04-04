@@ -27,11 +27,13 @@ jobs:
       - checkout
       - node/install-packages
       - run:
-          command: npx nx run-many --target lint
+          command: npx nx run-many --target lint --target=lint --outputFile {workspaceRoot}/lint-results/{projectRoot}/lint-results.json --format json
       - run:
-          command: npx nx run-many --target test
+          command: npx nx run-many --target test --configuration ci --coverageReporters lcov
       - run:
           command: npx nx run-many --target e2e --parallel 1 --runInBand --verbose
+      - run:
+          command: npx nx run-many --target sonar
 
   deploy:
     executor: node/default
