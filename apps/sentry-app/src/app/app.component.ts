@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ngx-shared-root',
+  selector: 'sentry-app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
