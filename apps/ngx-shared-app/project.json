@@ -1,25 +1,25 @@
 {
-  "name": "example-app",
+  "name": "ngx-shared-app",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "ngx-shared",
-  "sourceRoot": "apps/example-app/src",
+  "sourceRoot": "apps/ngx-shared-app/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/example-app",
-        "index": "apps/example-app/src/index.html",
-        "main": "apps/example-app/src/main.ts",
+        "outputPath": "dist/apps/ngx-shared-app",
+        "index": "apps/ngx-shared-app/src/index.html",
+        "main": "apps/ngx-shared-app/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/example-app/tsconfig.app.json",
+        "tsConfig": "apps/ngx-shared-app/tsconfig.app.json",
         "assets": [
-          "apps/example-app/src/favicon.ico",
-          "apps/example-app/src/assets"
+          "apps/ngx-shared-app/src/favicon.ico",
+          "apps/ngx-shared-app/src/assets"
         ],
-        "styles": ["apps/example-app/src/styles.css"],
+        "styles": ["apps/ngx-shared-app/src/styles.css"],
         "scripts": []
       },
       "configurations": {
@@ -53,10 +53,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "example-app:build:production"
+          "browserTarget": "ngx-shared-app:build:production"
         },
         "development": {
-          "browserTarget": "example-app:build:development"
+          "browserTarget": "ngx-shared-app:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -64,7 +64,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "example-app:build"
+        "browserTarget": "ngx-shared-app:build"
       }
     },
     "lint": {
@@ -72,8 +72,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "apps/example-app/**/*.ts",
-          "apps/example-app/**/*.html"
+          "apps/ngx-shared-app/**/*.ts",
+          "apps/ngx-shared-app/**/*.html"
         ]
       }
     },
@@ -81,7 +81,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/example-app/jest.config.ts",
+        "jestConfig": "apps/ngx-shared-app/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

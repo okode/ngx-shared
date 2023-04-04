@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:example-app": "nx serve example-app",
+    "start:ngx-shared-app": "nx serve ngx-shared-app",
     "test:sentry-library": "nx test sentry-library"
   },
   "private": true,
