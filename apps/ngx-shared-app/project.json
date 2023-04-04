@@ -19,7 +19,7 @@
           "apps/ngx-shared-app/src/favicon.ico",
           "apps/ngx-shared-app/src/assets"
         ],
-        "styles": ["apps/ngx-shared-app/src/styles.css"],
+        "styles": ["apps/ngx-shared-app/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
