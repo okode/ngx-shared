@@ -57,10 +57,7 @@ export class SentryErrorReporterService {
     error: 'ERROR',
   } as const;
 
-  readonly sentry$ = from(this.initSentry()).pipe(
-    filter(Boolean),
-    shareReplay(1),
-  );
+  readonly sentry$ = from(this.initSentry()).pipe(filter(Boolean), shareReplay(1));
 
   constructor(
     @Inject(INJECTOR) private readonly injector: Injector,
@@ -83,12 +80,11 @@ export class SentryErrorReporterService {
     }
 
     if (isPlatformServer(this.platformId)) {
-      const logError =
-        extractedError.stack?.replace(/\n/g, '') ?? extractedError;
+      const logError = extractedError.stack?.replace(/\n/g, '') ?? extractedError;
       const message = `[ ERROR HANDLED ] ${JSON.stringify(logError)}`;
       this.logError(message);
     } else {
-      this.sentry$.subscribe((s) => {
+      this.sentry$.subscribe(s => {
         const scope = new s.Scope();
         scope.setTag(
           SentryErrorReporterService.TAGS.errorType,
@@ -142,7 +138,7 @@ export class SentryErrorReporterService {
     } else {
       const e = this.buildError(error);
       e.name = e.name ? `Debug [${errorCode}] - ${e.name}` : e.name;
-      this.sentry$.subscribe((s) => {
+      this.sentry$.subscribe(s => {
         const scope = new s.Scope();
         scope.setLevel(level);
         scope.setTag(
@@ -279,8 +275,7 @@ export class SentryErrorReporterService {
   private isIE() {
     return (
       isPlatformBrowser(this.platformId) &&
-      ('ActiveXObject' in window ||
-        /MSIE|Trident/.test(window.navigator.userAgent))
+      ('ActiveXObject' in window || /MSIE|Trident/.test(window.navigator.userAgent))
     );
   }
 
@@ -290,8 +285,10 @@ export class SentryErrorReporterService {
     }
 
     const urls = this.sentryConfig.denyUrlsConfig.useDefaultUrls ? defaultDenyUrls : [];
-    const urlsWithAdditional = [...urls, ...this.sentryConfig.denyUrlsConfig.additionalUrls ?? []];
-    return urlsWithAdditional;
+    return [
+      ...urls,
+      ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? []),
+    ];
   }
 
   private logError(message: string) {

@@ -33,9 +33,14 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+/lint-results
 
 # System Files
 .DS_Store
 Thumbs.db
 
 .angular
+
+# Sonar (nx-sonar setup generator)
+.scannerwork
+.sonar/

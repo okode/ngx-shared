@@ -10,7 +10,7 @@ export interface SentryConfig {
   integrationsConfig?: {
     browserTracing?: {
       tracePropagationTargets?: string[];
-    }
+    };
   };
 }
 

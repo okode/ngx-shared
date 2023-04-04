@@ -71,9 +71,7 @@ describe('SentryErrorReporterService', () => {
         spectator.service.sendError(error);
 
         expect(consoleErrorSpy.mock.calls[0][0]).toMatch(
-          `${fakeDate} [ ERROR HANDLED ] ${JSON.stringify(
-            error.stack.replace(/\n/g, '')
-          )}`
+          `${fakeDate} [ ERROR HANDLED ] ${JSON.stringify(error.stack.replace(/\n/g, ''))}`
         );
       });
     });
