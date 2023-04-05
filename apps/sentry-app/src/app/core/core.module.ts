@@ -13,11 +13,8 @@ import packageInfo from '@package';
     SentryModule.forRoot({
       dns: 'https://a3972e67a7774359b88c1813a69d64a4@o4504876739657728.ingest.sentry.io/4504876742606848',
       enabled: true,
-      logErrors: true,
-      debug: true,
       env: environment.envName,
       release: packageInfo.version,
-      tracesSampleRate: environment.sentry.sampleRate,
       denyUrlsConfig: {
         useDefaultUrls: true,
         additionalUrls: [
@@ -26,6 +23,9 @@ import packageInfo from '@package';
           /^example3:\/\//i,
         ],
       },
+      debug: true,
+      logErrors: true,
+      tracesSampleRate: environment.sentry.sampleRate,
       integrationsConfig: {
         browserTracing: {
           tracePropagationTargets: ['localhost'],
