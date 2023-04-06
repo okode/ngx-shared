@@ -7,7 +7,7 @@ import { SentryReportErrorHttpInterceptor } from './sentry-report-error.http-int
 import { SentryConfig } from '../models/sentry-config.model';
 
 const sentryConfigMock: SentryConfig = {
-  dns: 'https://a3972e67a7774359b88c1813a69d64a4@o4504876739657728.ingest.sentry.io/4504876742606848',
+  dns: 'YOUR_DNS',
   enabled: true,
   debug: true,
   env: 'testing',
