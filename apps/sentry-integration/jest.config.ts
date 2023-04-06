@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'sentry-app',
+  displayName: 'sentry-integration',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/sentry-app',
+  coverageDirectory: '../../coverage/apps/sentry-integration',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
