@@ -7,6 +7,8 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
@@ -17,7 +19,8 @@
     "paths": {
       "@okode/ngx-sentry": ["libs/sentry/src/index.ts"],
       "@okode/ngx-testing-kit": ["libs/testing-kit/src/index.ts"],
-      "@okode/ngx-testing-kit/setup": ["libs/testing-kit/src/test-setup.ts"]
+      "@okode/ngx-testing-kit/setup": ["libs/testing-kit/src/test-setup.ts"],
+      "@package": ["package.json"],
     }
   },
   "exclude": ["node_modules", "tmp"]
