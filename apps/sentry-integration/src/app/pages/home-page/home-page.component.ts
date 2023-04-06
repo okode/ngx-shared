@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 @Component({
-  selector: 'sentry-app-home-page',
+  selector: 'ngx-shared-home-page',
   standalone: true,
   imports: [CommonModule, RouterModule],
   providers: [],

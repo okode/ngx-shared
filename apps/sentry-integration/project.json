@@ -1,25 +1,22 @@
 {
-  "name": "sentry-app",
+  "name": "sentry-integration",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "ngx-shared",
-  "sourceRoot": "apps/sentry-app/src",
+  "sourceRoot": "apps/sentry-integration/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/sentry-app",
-        "index": "apps/sentry-app/src/index.html",
-        "main": "apps/sentry-app/src/main.ts",
+        "outputPath": "dist/apps/sentry-integration",
+        "index": "apps/sentry-integration/src/index.html",
+        "main": "apps/sentry-integration/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/sentry-app/tsconfig.app.json",
-        "assets": [
-          "apps/sentry-app/src/favicon.ico",
-          "apps/sentry-app/src/assets"
-        ],
-        "styles": ["apps/sentry-app/src/styles.scss"],
+        "tsConfig": "apps/sentry-integration/tsconfig.app.json",
+        "assets": ["apps/sentry-integration/src/favicon.ico", "apps/sentry-integration/src/assets"],
+        "styles": ["apps/sentry-integration/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -53,10 +50,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "sentry-app:build:production"
+          "browserTarget": "sentry-integration:build:production"
         },
         "development": {
-          "browserTarget": "sentry-app:build:development"
+          "browserTarget": "sentry-integration:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -64,24 +61,21 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "sentry-app:build"
+        "browserTarget": "sentry-integration:build"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/sentry-app/**/*.ts",
-          "apps/sentry-app/**/*.html"
-        ]
+        "lintFilePatterns": ["apps/sentry-integration/**/*.ts", "apps/sentry-integration/**/*.html"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/sentry-app/jest.config.ts",
+        "jestConfig": "apps/sentry-integration/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

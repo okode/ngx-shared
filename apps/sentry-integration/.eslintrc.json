@@ -17,7 +17,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "sentry-app",
+            "prefix": "ngx-shared",
             "style": "kebab-case"
           }
         ]

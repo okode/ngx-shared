@@ -49,6 +49,8 @@
       "options": {
         "hostUrl": "https://sonarcloud.io",
         "config": {
+          "sonar.qualitygate.wait": "true",
+          "sonar.qualitygate.timeout": "300",
           "sonar.organization": "okode",
           "sonar.projectKey": "okode_ngx-sentry",
           "sonar.projectName": "okode_ngx-sentry",
