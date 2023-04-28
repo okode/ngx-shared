@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/okode/ngx-shared/compare/0.1.0...0.1.1) (2023-04-28)
+
+
+### Bug Fixes
+
+* version ([f554105](https://github.com/okode/ngx-shared/commit/f5541058637f386a8b23aa18f7364726df88d6ec))
+
 ## 0.1.0 (2023-04-28)
 
 
