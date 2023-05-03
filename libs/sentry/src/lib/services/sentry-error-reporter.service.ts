@@ -80,9 +80,8 @@ export class SentryErrorReporterService {
     }
 
     if (isPlatformServer(this.platformId)) {
-      const logError = extractedError.stack?.replace(/\n/g, '') ?? extractedError;
-      const message = `[ ERROR HANDLED ] ${JSON.stringify(logError)}`;
-      this.logError(message);
+      const error = extractedError.stack?.replace(/\n/g, '') ?? extractedError;
+      this.logErrorForServer(error);
     } else {
       this.sentry$.subscribe(s => {
         const scope = new s.Scope();
@@ -98,7 +97,7 @@ export class SentryErrorReporterService {
 
   sendServerError(error: HttpErrorResponse, req?: HttpRequest<unknown>) {
     if (isPlatformServer(this.platformId)) {
-      this.logHttpError(error, req);
+      this.logHttpErrorForServer(error, req);
     } else {
       this.sentry$.subscribe(s => {
         const scope = new s.Scope();
@@ -133,8 +132,7 @@ export class SentryErrorReporterService {
 
   sendCustomError(errorCode: string, error?: unknown, level: 'debug' | 'warning' = 'debug') {
     if (isPlatformServer(this.platformId)) {
-      const message = `[ DEBUG - CUSTOM ERROR ] [${errorCode}] ${JSON.stringify(error)}`;
-      this.logError(message);
+      this.logCustomErrorForServer(errorCode, error);
     } else {
       const e = this.buildError(error);
       e.name = e.name ? `Debug [${errorCode}] - ${e.name}` : e.name;
@@ -152,7 +150,7 @@ export class SentryErrorReporterService {
     }
   }
 
-  private buildError(errorCandidate: unknown) {
+  protected buildError(errorCandidate: unknown) {
     let error = errorCandidate;
     // Try to unwrap zone.js error.
     // https://github.com/angular/angular/blob/master/packages/core/src/util/errors.ts
@@ -182,7 +180,7 @@ export class SentryErrorReporterService {
     return fallbackError;
   }
 
-  private buildHttpError(error: HttpErrorResponse) {
+  protected buildHttpError(error: HttpErrorResponse) {
     // The `error` property of http exception can be either an `Error` object, which we can use directly...
     if (error.error instanceof Error) {
       return error.error;
@@ -202,6 +200,38 @@ export class SentryErrorReporterService {
     const extractedServerError = new Error(`[${error.status}] ${error.url}`);
     extractedServerError.name = 'ServerError';
     return extractedServerError;
+  }
+
+  protected logHttpErrorForServer(error: HttpErrorResponse, req?: HttpRequest<unknown>) {
+    if (!req) {
+      console.error(`${new Date().toISOString()} [ HTTP ERROR ] [${error.status}] ${error.url}`);
+    } else {
+      const urlObj = new URL(req.urlWithParams);
+      console.log(
+        JSON.stringify({
+          time: new Date().toISOString(),
+          type: 'angular',
+          uuid: req?.headers.get('custom-uuid'),
+          method: req.method,
+          status: error.status,
+          protocol: urlObj.protocol?.replace(':', ''),
+          host: urlObj.hostname,
+          url: urlObj.pathname + urlObj.search,
+          request_body: JSON.stringify(req.body),
+          user_agent: req.headers.get('user-agent'),
+          http_x_forwarded_for: req.headers.get('custom-x-forwarded-for'),
+          http_referer: this.document.location.href,
+        })
+      );
+    }
+  }
+
+  protected logErrorForServer(error: unknown) {
+    console.error(`${new Date().toISOString()} [ ERROR HANDLED ] ${JSON.stringify(error)}`);
+  }
+
+  protected logCustomErrorForServer(errorCode: string, error: unknown) {
+    console.error(`${new Date().toISOString()} [ DEBUG - CUSTOM ERROR ] [${errorCode}] ${JSON.stringify(error)}`);
   }
 
   private async initSentry() {
@@ -247,31 +277,6 @@ export class SentryErrorReporterService {
     return sentry;
   }
 
-  private logHttpError(error: HttpErrorResponse, req?: HttpRequest<unknown>) {
-    if (!req) {
-      const message = `[ HTTP ERROR ] [${error.status}] ${error.url}`;
-      this.logError(message);
-    } else {
-      const urlObj = new URL(req.urlWithParams);
-      console.log(
-        JSON.stringify({
-          time: new Date().toISOString(),
-          type: 'angular',
-          uuid: req?.headers.get('custom-uuid'),
-          method: req.method,
-          status: error.status,
-          protocol: urlObj.protocol?.replace(':', ''),
-          host: urlObj.hostname,
-          url: urlObj.pathname + urlObj.search,
-          request_body: JSON.stringify(req.body),
-          user_agent: req.headers.get('user-agent'),
-          http_x_forwarded_for: req.headers.get('custom-x-forwarded-for'),
-          http_referer: this.document.location.href,
-        })
-      );
-    }
-  }
-
   private isIE() {
     return (
       isPlatformBrowser(this.platformId) &&
@@ -289,9 +294,5 @@ export class SentryErrorReporterService {
       ...urls,
       ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? []),
     ];
-  }
-
-  private logError(message: string) {
-    console.error(`${new Date().toISOString()} ${message}`);
   }
 }
