@@ -3,6 +3,7 @@ export interface SentryConfig {
   enabled: boolean;
   env: string;
   release: string;
+  dist?: string;
   denyUrlsConfig?: DenyUrlsConfig;
   debug?: boolean;
   logErrors?: boolean;

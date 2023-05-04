@@ -269,7 +269,7 @@ export class SentryErrorReporterService {
       enabled: this.sentryConfig.enabled,
       environment: this.sentryConfig.env,
       release: this.sentryConfig.release,
-      dist: 'web',
+      dist: this.sentryConfig.dist,
       denyUrls: this.getDenyUrls(),
       tracesSampleRate: this.sentryConfig.tracesSampleRate,
       integrations,
