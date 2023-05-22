@@ -19,6 +19,10 @@ export class SentryErrorHandler implements ErrorHandler {
       return;
     }
 
+    //REVIEW
+    this.sentryErrorReporterService.sentry$.subscribe( s =>
+      s.configureScope((scope) => scope.setUser({id: '33242424324'})));
+
     this.sentryErrorReporterService.sendError(error);
     if (this.sentryConfig.logErrors === undefined || this.sentryConfig.logErrors) {
       console.error('ErrorHandler:', error);

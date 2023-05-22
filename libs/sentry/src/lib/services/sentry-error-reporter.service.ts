@@ -36,13 +36,14 @@ const defaultDenyUrls: ReadonlyArray<RegExp> = [
   providedIn: 'root',
 })
 export class SentryErrorReporterService {
-  private static readonly IE_ERROR_CODE = 'INTERNET_EXPLORER_ERROR';
-  private static readonly CONTEXT_FIELDS = {
+  //cambio de private a protected
+  protected static readonly IE_ERROR_CODE = 'INTERNET_EXPLORER_ERROR';
+  protected static readonly CONTEXT_FIELDS = {
     rawError: 'customctx.rawError',
     httpReq: 'customctx.httpRequest',
     httpRes: 'customctx.httpResponse',
   } as const;
-  private static readonly TAGS = {
+  protected static readonly TAGS = {
     errorType: 'customctx.errorType',
     customErrorCode: 'customctx.customErrorCode',
     httpError: {
@@ -51,7 +52,7 @@ export class SentryErrorReporterService {
       status: 'customctx.httpError.status',
     },
   } as const;
-  private static readonly ERROR_TYPE_TAG_VALUES = {
+  protected static readonly ERROR_TYPE_TAG_VALUES = {
     server: 'SERVER_ERROR',
     customError: 'CUSTOM_ERROR',
     error: 'ERROR',
@@ -60,10 +61,10 @@ export class SentryErrorReporterService {
   readonly sentry$ = from(this.initSentry()).pipe(filter(Boolean), shareReplay(1));
 
   constructor(
-    @Inject(INJECTOR) private readonly injector: Injector,
-    @Inject(PLATFORM_ID) private readonly platformId: string,
-    @Inject(DOCUMENT) private readonly document: Document,
-    @Inject(SENTRY_CONFIG) private readonly sentryConfig: SentryConfig
+    @Inject(INJECTOR) protected readonly injector: Injector,
+    @Inject(PLATFORM_ID) protected readonly platformId: string,
+    @Inject(DOCUMENT) protected readonly document: Document,
+    @Inject(SENTRY_CONFIG) protected readonly sentryConfig: SentryConfig
   ) {}
 
   sendError(error: unknown) {
@@ -85,6 +86,8 @@ export class SentryErrorReporterService {
     } else {
       this.sentry$.subscribe(s => {
         const scope = new s.Scope();
+        // TODO Cómo hacerlo de manera general a todos
+        //scope.setUser({ id: 'fdsfsd'});
         scope.setTag(
           SentryErrorReporterService.TAGS.errorType,
           SentryErrorReporterService.ERROR_TYPE_TAG_VALUES.error
@@ -148,6 +151,13 @@ export class SentryErrorReporterService {
         s.captureException(e, scope);
       });
     }
+  }
+
+  setUserScope(sentryUserScope: any) {
+    this.sentry$.subscribe(s => {
+      const scope = new s.Scope();
+
+    })
   }
 
   protected buildError(errorCandidate: unknown) {
@@ -277,7 +287,7 @@ export class SentryErrorReporterService {
     return sentry;
   }
 
-  private isIE() {
+  protected isIE() {
     return (
       isPlatformBrowser(this.platformId) &&
       ('ActiveXObject' in window || /MSIE|Trident/.test(window.navigator.userAgent))
