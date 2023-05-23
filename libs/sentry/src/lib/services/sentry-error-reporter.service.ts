@@ -1,5 +1,6 @@
 import { DOCUMENT, isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { User } from '@sentry/angular-ivy';
 import { Inject, Injectable, Injector, INJECTOR, PLATFORM_ID } from '@angular/core';
 import { from } from 'rxjs';
 import { filter, shareReplay } from 'rxjs/operators';
@@ -62,7 +63,7 @@ export class SentryErrorReporterService {
 
   constructor(
     @Inject(INJECTOR) protected readonly injector: Injector,
-    @Inject(PLATFORM_ID) protected readonly platformId: string,
+    @Inject(PLATFORM_ID) protected platformId: string,
     @Inject(DOCUMENT) protected readonly document: Document,
     @Inject(SENTRY_CONFIG) protected readonly sentryConfig: SentryConfig
   ) {}
@@ -149,6 +150,10 @@ export class SentryErrorReporterService {
         s.captureException(e, scope);
       });
     }
+  }
+
+  setUserScope(sentryUserScope: User) {
+    this.sentry$.subscribe(s => s.configureScope(scope => scope.setUser(sentryUserScope)));
   }
 
   protected buildError(errorCandidate: unknown) {
@@ -276,8 +281,6 @@ export class SentryErrorReporterService {
       integrations,
     });
 
-   this.setUserScope();
-
    return sentry;
   }
 
@@ -298,9 +301,5 @@ export class SentryErrorReporterService {
       ...urls,
       ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? []),
     ];
-  }
-
-  protected setUserScope() {
-    this.sentry$.subscribe(s => s.configureScope(scope => scope.setUser({ id: 'user2' })));
   }
 }
