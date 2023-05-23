@@ -36,6 +36,7 @@ const defaultDenyUrls: ReadonlyArray<RegExp> = [
   providedIn: 'root',
 })
 export class SentryErrorReporterService {
+
   protected static readonly IE_ERROR_CODE = 'INTERNET_EXPLORER_ERROR';
   protected static readonly CONTEXT_FIELDS = {
     rawError: 'customctx.rawError',
@@ -232,9 +233,7 @@ export class SentryErrorReporterService {
   }
 
   protected logCustomErrorForServer(errorCode: string, error: unknown) {
-    console.error(
-      `${new Date().toISOString()} [ DEBUG - CUSTOM ERROR ] [${errorCode}] ${JSON.stringify(error)}`
-    );
+    console.error(`${new Date().toISOString()} [ DEBUG - CUSTOM ERROR ] [${errorCode}] ${JSON.stringify(error)}`);
   }
 
   private async initSentry() {
@@ -277,12 +276,10 @@ export class SentryErrorReporterService {
       tracesSampleRate: this.sentryConfig.tracesSampleRate,
       integrations,
     });
-    this.setUserScope();
-    return sentry;
-  }
 
-  protected setUserScope() {
-    this.sentry$.subscribe(s => s.configureScope(scope => scope.setUser({ id: 'user3' })));
+   this.setUserScope();
+
+   return sentry;
   }
 
   protected isIE() {
@@ -292,12 +289,19 @@ export class SentryErrorReporterService {
     );
   }
 
-  private getDenyUrls() {
+  protected getDenyUrls() {
     if (!this.sentryConfig.denyUrlsConfig) {
       return defaultDenyUrls as RegExp[];
     }
 
     const urls = this.sentryConfig.denyUrlsConfig.useDefaultUrls ? defaultDenyUrls : [];
-    return [...urls, ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? [])];
+    return [
+      ...urls,
+      ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? []),
+    ];
+  }
+
+  protected setUserScope() {
+    this.sentry$.subscribe(s => s.configureScope(scope => scope.setUser({ id: 'user2' })));
   }
 }
