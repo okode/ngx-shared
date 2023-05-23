@@ -68,7 +68,6 @@ export class SentryErrorReporterService {
   ) {}
 
   sendError(error: unknown) {
-    console.log('error normal');
     if (error instanceof HttpErrorResponse) {
       this.sendServerError(error);
       return;
