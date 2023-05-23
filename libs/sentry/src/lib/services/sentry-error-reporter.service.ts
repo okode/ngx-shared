@@ -36,7 +36,7 @@ const defaultDenyUrls: ReadonlyArray<RegExp> = [
   providedIn: 'root',
 })
 export class SentryErrorReporterService {
-  //cambio de private a protected
+
   protected static readonly IE_ERROR_CODE = 'INTERNET_EXPLORER_ERROR';
   protected static readonly CONTEXT_FIELDS = {
     rawError: 'customctx.rawError',
@@ -68,6 +68,7 @@ export class SentryErrorReporterService {
   ) {}
 
   sendError(error: unknown) {
+    console.log('error normal');
     if (error instanceof HttpErrorResponse) {
       this.sendServerError(error);
       return;
@@ -86,8 +87,6 @@ export class SentryErrorReporterService {
     } else {
       this.sentry$.subscribe(s => {
         const scope = new s.Scope();
-        // TODO Cómo hacerlo de manera general a todos
-        //scope.setUser({ id: 'fdsfsd'});
         scope.setTag(
           SentryErrorReporterService.TAGS.errorType,
           SentryErrorReporterService.ERROR_TYPE_TAG_VALUES.error

@@ -8,6 +8,7 @@ import { SENTRY_CONFIG, SentryConfig, SentryErrorReporterService } from '@okode/
 })
 export class SentryErrorReporterServiceExt extends SentryErrorReporterService {
 
+  //REVIEW
   constructor(
     @Inject(INJECTOR) injector: Injector,
     @Inject(PLATFORM_ID) platformId: string,
