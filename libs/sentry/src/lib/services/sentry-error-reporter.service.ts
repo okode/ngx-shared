@@ -36,7 +36,6 @@ const defaultDenyUrls: ReadonlyArray<RegExp> = [
   providedIn: 'root',
 })
 export class SentryErrorReporterService {
-
   protected static readonly IE_ERROR_CODE = 'INTERNET_EXPLORER_ERROR';
   protected static readonly CONTEXT_FIELDS = {
     rawError: 'customctx.rawError',
@@ -152,13 +151,6 @@ export class SentryErrorReporterService {
     }
   }
 
-  setUserScope(sentryUserScope: any) {
-    this.sentry$.subscribe(s => {
-      const scope = new s.Scope();
-
-    })
-  }
-
   protected buildError(errorCandidate: unknown) {
     let error = errorCandidate;
     // Try to unwrap zone.js error.
@@ -240,7 +232,9 @@ export class SentryErrorReporterService {
   }
 
   protected logCustomErrorForServer(errorCode: string, error: unknown) {
-    console.error(`${new Date().toISOString()} [ DEBUG - CUSTOM ERROR ] [${errorCode}] ${JSON.stringify(error)}`);
+    console.error(
+      `${new Date().toISOString()} [ DEBUG - CUSTOM ERROR ] [${errorCode}] ${JSON.stringify(error)}`
+    );
   }
 
   private async initSentry() {
@@ -283,7 +277,12 @@ export class SentryErrorReporterService {
       tracesSampleRate: this.sentryConfig.tracesSampleRate,
       integrations,
     });
+    this.setUserScope();
     return sentry;
+  }
+
+  protected setUserScope() {
+    this.sentry$.subscribe(s => s.configureScope(scope => scope.setUser({ id: 'user3' })));
   }
 
   protected isIE() {
@@ -299,9 +298,6 @@ export class SentryErrorReporterService {
     }
 
     const urls = this.sentryConfig.denyUrlsConfig.useDefaultUrls ? defaultDenyUrls : [];
-    return [
-      ...urls,
-      ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? []),
-    ];
+    return [...urls, ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? [])];
   }
 }
