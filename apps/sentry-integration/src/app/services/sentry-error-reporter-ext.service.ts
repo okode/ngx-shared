@@ -1,12 +1,21 @@
-import { isPlatformServer } from '@angular/common';
+import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { SentryErrorReporterService } from '@okode/ngx-sentry';
+import { INJECTOR, Inject, Injectable, Injector, PLATFORM_ID } from '@angular/core';
+import { SENTRY_CONFIG, SentryConfig, SentryErrorReporterService } from '@okode/ngx-sentry';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SentryErrorReporterServiceExt extends SentryErrorReporterService {
+
+  constructor(
+    @Inject(INJECTOR) injector: Injector,
+    @Inject(PLATFORM_ID) platformId: string,
+    @Inject(DOCUMENT) document: Document,
+    @Inject(SENTRY_CONFIG) sentryConfig: SentryConfig
+  ) {
+    super(injector, platformId, document, sentryConfig);
+  }
 
   override sendError(error: unknown) {
     if (error instanceof HttpErrorResponse) {
@@ -21,7 +30,7 @@ export class SentryErrorReporterServiceExt extends SentryErrorReporterService {
       return;
     }
 
-    if (isPlatformServer(this.platformId)) {
+    if (isPlatformServer(super.platformId)) {
       const error = extractedError.stack?.replace(/\n/g, '') ?? extractedError;
       this.logErrorForServer(error);
     } else {
