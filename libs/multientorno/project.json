@@ -1,0 +1,47 @@
+{
+  "name": "multientorno",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/multientorno/src",
+  "prefix": "ngx-shared",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/multientorno/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/multientorno/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/multientorno/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/multientorno/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/multientorno/**/*.ts", "libs/multientorno/**/*.html"]
+      }
+    }
+  }
+}
