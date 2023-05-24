@@ -240,6 +240,25 @@ export class SentryErrorReporterService {
     console.error(`${new Date().toISOString()} [ DEBUG - CUSTOM ERROR ] [${errorCode}] ${JSON.stringify(error)}`);
   }
 
+  protected isIE() {
+    return (
+      isPlatformBrowser(this.platformId) &&
+      ('ActiveXObject' in window || /MSIE|Trident/.test(window.navigator.userAgent))
+    );
+  }
+
+  protected getDenyUrls() {
+    if (!this.sentryConfig.denyUrlsConfig) {
+      return defaultDenyUrls as RegExp[];
+    }
+
+    const urls = this.sentryConfig.denyUrlsConfig.useDefaultUrls ? defaultDenyUrls : [];
+    return [
+      ...urls,
+      ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? []),
+    ];
+  }
+
   private async initSentry() {
     if (isPlatformServer(this.platformId)) {
       return null;
@@ -282,24 +301,5 @@ export class SentryErrorReporterService {
     });
 
    return sentry;
-  }
-
-  protected isIE() {
-    return (
-      isPlatformBrowser(this.platformId) &&
-      ('ActiveXObject' in window || /MSIE|Trident/.test(window.navigator.userAgent))
-    );
-  }
-
-  protected getDenyUrls() {
-    if (!this.sentryConfig.denyUrlsConfig) {
-      return defaultDenyUrls as RegExp[];
-    }
-
-    const urls = this.sentryConfig.denyUrlsConfig.useDefaultUrls ? defaultDenyUrls : [];
-    return [
-      ...urls,
-      ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? []),
-    ];
   }
 }

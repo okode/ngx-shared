@@ -6,6 +6,7 @@ import { fakeAsync, flushMicrotasks } from '@angular/core/testing';
 import { GlobalMocks, fakeTimer, mockPlatform } from '@okode/ngx-testing-kit';
 import { SentryConfig } from '../models/sentry-config.model';
 import { HttpErrorResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { User } from '@sentry/angular-ivy';
 
 const sentryConfigMock: SentryConfig = {
   dns: 'YOUR_DNS',
@@ -421,5 +422,22 @@ describe('SentryErrorReporterService', () => {
         expect(captureExceptionSpy.mock.calls[0][0].message).toEqual(capturedError.message);
       }));
     });
+  });
+
+  describe('setUser', () => {
+    it('should configure scope with the providen user', fakeAsync(() => {
+      const spectator = createService({
+        providers: [{ provide: SENTRY_CONFIG, useValue: sentryConfigMock }],
+      });
+      mockPlatform('browser');
+      mockSentryInit();
+
+      const configureScope = jest.spyOn(Sentry, 'configureScope');
+
+      spectator.service.setUserScope({id: 'user1'})
+      flushMicrotasks();
+
+      expect(configureScope).toHaveBeenCalled();
+    }));
   });
 });
