@@ -423,7 +423,7 @@ describe('SentryErrorReporterService', () => {
     });
   });
 
-  describe('setUser', () => {
+  describe('setUserScope', () => {
     it('should configure scope with the providen user', fakeAsync(() => {
       const spectator = createService({
         providers: [{ provide: SENTRY_CONFIG, useValue: sentryConfigMock }],
