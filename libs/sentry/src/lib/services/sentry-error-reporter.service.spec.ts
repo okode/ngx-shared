@@ -6,7 +6,6 @@ import { fakeAsync, flushMicrotasks } from '@angular/core/testing';
 import { GlobalMocks, fakeTimer, mockPlatform } from '@okode/ngx-testing-kit';
 import { SentryConfig } from '../models/sentry-config.model';
 import { HttpErrorResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { User } from '@sentry/angular-ivy';
 
 const sentryConfigMock: SentryConfig = {
   dns: 'YOUR_DNS',
