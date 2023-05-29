@@ -20,12 +20,13 @@ export class Server {
   private distFolder = join(process.cwd(), 'dist/apps/multientorno-integration/browser');
   private startDate = new Date().toISOString();
   private envVars: EnvironmentVars = buildEnvVars({
-    // env: process.env['APP_ENVIRONMENT'] as Environment,
-    env: 'local' as Environment,
+    env: process.env['APP_ENVIRONMENT'] as Environment,
+    //env: 'local' as Environment,
   });
   private envConfig?: EnvironmentConfig;
 
-  constructor() {
+  constructor(
+  ) {
     this.server = express();
     this.server.use(compression());
     this.server.use(requestContext);
