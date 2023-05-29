@@ -1,4 +1,5 @@
-export const environment = {
-  production: false,
-  envName: 'local',
+import { EnvironmentVars } from "./environment-vars.model";
+
+export const environment: EnvironmentVars = {
+  env: 'local',
 } as const;

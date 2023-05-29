@@ -17,7 +17,8 @@
         "tsConfig": "apps/multientorno-integration/tsconfig.app.json",
         "assets": [
           "apps/multientorno-integration/src/favicon.ico",
-          "apps/multientorno-integration/src/assets"
+          "apps/multientorno-integration/src/assets",
+          "apps/multientorno-integration/src/spa-env-vars.json"
         ],
         "styles": ["apps/multientorno-integration/src/styles.scss"],
         "scripts": []
