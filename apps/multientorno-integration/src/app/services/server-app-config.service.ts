@@ -5,7 +5,7 @@ import { DOCUMENT } from '@angular/common';
   providedIn: 'root',
 })
 export class ServerAppConfigService {
-  private static readonly ENV_VARS_STATE_KEY = 'gy-server-env-vars';
+  private static readonly ENV_VARS_STATE_KEY = 'pf-server-env-vars';
   private static readonly SSR_RUNNING_ATTR = 'data-app-run-ssr';
 
   constructor(@Inject(DOCUMENT) private readonly document: Document) {}

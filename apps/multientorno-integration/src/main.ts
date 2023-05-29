@@ -56,7 +56,6 @@ if (ServerAppConfigService.isServerRunningDetectedInBrowser()) {
    * Environment variables are set by server side environment variables. So, this check avoids an
    * unnecessary XHR request to load a file whose content is completely irrelevant.
    */
-  console.log('Se ejecuta en server')
   init(ServerAppConfigService.getServerEnvVars());
 } else {
   /**
