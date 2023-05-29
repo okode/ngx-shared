@@ -1,4 +1,4 @@
-import { InjectionToken, NgModule, inject } from '@angular/core';
+import { APP_INITIALIZER, InjectionToken, Injector, NgModule, inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -12,17 +12,16 @@ export const configFactory = () => {
   const config = {
     ...envVars,
     ...envConfig,
-  }
+  };
   return config;
 };
 
 export const CONFIG = new InjectionToken<any>('APP_CONFIG');
 
-
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
   ],
   providers: [
@@ -31,4 +30,3 @@ export const CONFIG = new InjectionToken<any>('APP_CONFIG');
   bootstrap: [AppComponent],
 })
 export class AppModule {}
-

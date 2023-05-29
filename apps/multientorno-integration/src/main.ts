@@ -17,7 +17,7 @@ function selectOption() {
     // })
     .then(() => {
         // 2. METE LA OPCIÓN EN EL LOCAL STORAGE
-        const env = prompt("Please enter an environment", "");
+        const env = prompt("Please enter an environment", "pro");
         if(env){
           localStorage.setItem('env', env);
           // 3. HACE INIT CON ESA OPCIÓN
@@ -56,6 +56,7 @@ if (ServerAppConfigService.isServerRunningDetectedInBrowser()) {
    * Environment variables are set by server side environment variables. So, this check avoids an
    * unnecessary XHR request to load a file whose content is completely irrelevant.
    */
+  console.log('Se ejecuta en server')
   init(ServerAppConfigService.getServerEnvVars());
 } else {
   /**
@@ -65,9 +66,11 @@ if (ServerAppConfigService.isServerRunningDetectedInBrowser()) {
 
   // Si encuentra en local storage env
   if (localStorage.getItem('env')) {
-    const environmentVars = {
+
+    const environmentVars: EnvironmentVars = {
       env: localStorage.getItem('env') as Environment,
     };
+
     init(environmentVars);
   } else {
     //Si no encuentra local storage salta a buscar opcion
