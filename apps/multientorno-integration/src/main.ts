@@ -6,29 +6,42 @@ import { ENVIRONMENT_VARS } from './tokens/environment-vars.token';
 import { ENVIRONMENT_CONFIG } from './tokens/environment-config.token';
 import { ServerAppConfigService } from './app/services/server-app-config.service';
 
+let selectedEnvironment = '';
 
-function selectOption() {
-  fetch('/spa-env-vars.json')
+function openEnvironmentOptions() {
+  fetch('/selected-environments.json')
     .then(response => response.json())
-    // 1. SALTA UN WINDOW PARA ELEGIR CON ESTAS VARIABLES
-    // .then(vars => {
-    //   vars['envOptions'].forEach((env: Environment) => {
-    //   });
-    // })
-    .then(() => {
-        // 2. METE LA OPCIÓN EN EL LOCAL STORAGE
-        const env = prompt("Please enter an environment", "pro");
-        if(env){
-          localStorage.setItem('env', env);
-          // 3. HACE INIT CON ESA OPCIÓN
-          const environmentVars = {
-            env: env,
-          };
-          init(environmentVars);
-         }
+    .then(vars => {
+      const menu = document.getElementById('menu-env');
+      vars['envOptions'].forEach((env: Environment) => {
+        const buttonElement = document.createElement('button');
+        buttonElement.className = 'c-btn-env';
+        buttonElement.innerText = `${env}`;
+        menu?.appendChild(buttonElement);
+      });
     })
-  }
+    .then(() => buttonsClickAction())
+    .catch(() => console.log('ERROR'));
+}
 
+function buttonsClickAction() {
+  const button = Array.from(document.getElementsByClassName('c-btn-env'));
+  button.forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedEnvironment = btn.innerHTML;
+      localStorage.setItem('env', selectedEnvironment);
+      closeEnvironmentOptions();
+      init({ env: selectedEnvironment });
+    });
+  });
+}
+
+function closeEnvironmentOptions() {
+  const menu = document.getElementById('menu-env');
+  if (menu) {
+    menu.className = 'c-menu--closed';
+  }
+}
 
 async function bootstrapApp(vars: EnvironmentVars) {
   /* REVIEW: Angular universal doesn't support standalone component bootstrap currently.
@@ -63,16 +76,11 @@ if (ServerAppConfigService.isServerRunningDetectedInBrowser()) {
    * as SPA without having server side.
    */
 
-  // Si encuentra en local storage env
+  //Si encuentra en local storage env
   if (localStorage.getItem('env')) {
-
-    const environmentVars: EnvironmentVars = {
-      env: localStorage.getItem('env') as Environment,
-    };
-
-    init(environmentVars);
+    init({ env: localStorage.getItem('env') as Environment });
   } else {
     //Si no encuentra local storage salta a buscar opcion
-    selectOption();
+    openEnvironmentOptions();
   }
 }

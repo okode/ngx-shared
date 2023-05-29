@@ -1,0 +1,4 @@
+{
+  "envOptions": ["local","testing","pro","pre","dev"]
+}
+

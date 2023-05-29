@@ -18,7 +18,7 @@
         "assets": [
           "apps/multientorno-integration/src/favicon.ico",
           "apps/multientorno-integration/src/assets",
-          "apps/multientorno-integration/src/spa-env-vars.json"
+          "apps/multientorno-integration/src/selected-environments.json"
         ],
         "styles": ["apps/multientorno-integration/src/styles.scss"],
         "scripts": []
