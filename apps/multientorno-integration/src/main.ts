@@ -9,9 +9,9 @@ let selectedEnvironment = '';
 function openEnvironmentMenuOptions() {
   fetch('/selected-environments.json')
     .then(response => response.json())
-    .then(vars => {
+    .then(jsonOptions => {
       const menu = document.getElementById('menu-env');
-      vars['envOptions'].forEach((env: string) => {
+      jsonOptions['envOptions'].forEach((env: string) => {
         const buttonElement = document.createElement('button');
         buttonElement.className = 'c-btn-env';
         buttonElement.innerText = `${env}`;
