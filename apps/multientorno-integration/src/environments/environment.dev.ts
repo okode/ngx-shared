@@ -1,5 +1,3 @@
-import { EnvironmentVars } from "./environment-vars.model";
-
-export const environment: EnvironmentVars = {
+export const environment = {
   env: 'dev',
 } as const;

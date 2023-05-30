@@ -6,9 +6,6 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import { requestContext } from './interceptors/request-context';
 import { responseLogger } from './interceptors/response-logger';
-import { EnvironmentVars, buildEnvVars
- } from '../src/environments/environment-vars.model';
-import { Environment } from '../src/environments/environment-vars.model';
 import { ENVIRONMENT_CONFIG } from '../src/tokens/environment-config.token';
 import { ENVIRONMENT_VARS } from '../src/tokens/environment-vars.token';
 import { AppServerModule } from '../src/main.server';
@@ -19,10 +16,7 @@ export class Server {
   private port = process.env['PORT'] || 4000;
   private distFolder = join(process.cwd(), 'dist/apps/multientorno-integration/browser');
   private startDate = new Date().toISOString();
-  private envVars: EnvironmentVars = buildEnvVars({
-    env: process.env['APP_ENVIRONMENT'] as Environment,
-    //env: 'local' as Environment,
-  });
+  private envSelected =  process.env['APP_ENVIRONMENT'] ?? 'pro';
   private envConfig?: EnvironmentConfig;
 
   constructor(
@@ -35,14 +29,14 @@ export class Server {
   }
 
   async run() {
-    this.envConfig = await getEnvironmentConfigByEnv(this.envVars.env);
+    this.envConfig = await getEnvironmentConfigByEnv(this.envSelected);
     this.server.listen(this.port, () => {
       this.startDate = new Date().toISOString();
       console.log(
         JSON.stringify({
           time: this.startDate,
           type: 'info',
-          message: `SERVER READY in env: ${this.envVars.env} with mode:. Node Express server listening on PORT: ${this.port}`,
+          message: `SERVER READY in env: ${this.envSelected} with mode:. Node Express server listening on PORT: ${this.port}`,
         })
       );
     });
@@ -64,7 +58,7 @@ export class Server {
     // health status check service
     this.server.get('/healthz', (_req, res) =>
       res.json({
-        environment: this.envVars.env,
+        environment: this.envSelected,
         startDate: this.startDate,
       })
     );
@@ -79,7 +73,7 @@ export class Server {
         res,
         providers: [
           { provide: APP_BASE_HREF, useValue: req.baseUrl },
-          { provide: ENVIRONMENT_VARS, useValue: this.envVars },
+          { provide: ENVIRONMENT_VARS, useValue: this.envSelected },
           { provide: ENVIRONMENT_CONFIG, useValue: this.envConfig },
         ],
       });

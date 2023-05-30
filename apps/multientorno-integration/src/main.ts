@@ -1,6 +1,6 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
-import { Environment, EnvironmentVars, buildEnvVars } from './environments/environment-vars.model';
+
 import { getEnvironmentConfigByEnv } from './environments/environment-config';
 import { ENVIRONMENT_VARS } from './tokens/environment-vars.token';
 import { ENVIRONMENT_CONFIG } from './tokens/environment-config.token';
@@ -13,7 +13,7 @@ function openEnvironmentMenuOptions() {
     .then(response => response.json())
     .then(vars => {
       const menu = document.getElementById('menu-env');
-      vars['envOptions'].forEach((env: Environment) => {
+      vars['envOptions'].forEach((env: string) => {
         const buttonElement = document.createElement('button');
         buttonElement.className = 'c-btn-env';
         buttonElement.innerText = `${env}`;
@@ -32,7 +32,7 @@ function bindEnvironmentButtonEvent() {
       selectedEnvironment = btn.innerHTML;
       localStorage.setItem('env', selectedEnvironment);
       closeEnvironmentMenuOptions();
-      init({ env: selectedEnvironment });
+      init(selectedEnvironment);
     });
   });
 }
@@ -44,20 +44,20 @@ function closeEnvironmentMenuOptions() {
   }
 }
 
-async function bootstrapApp(vars: EnvironmentVars) {
+async function bootstrapApp(env: string) {
   /* REVIEW: Angular universal doesn't support standalone component bootstrap currently.
    * https://github.com/angular/universal/issues/2906
    */
-  const envConfig = await getEnvironmentConfigByEnv(vars.env);
+  const envConfig = await getEnvironmentConfigByEnv(env);
   platformBrowserDynamic([
-    { provide: ENVIRONMENT_VARS, useValue: vars },
+    { provide: ENVIRONMENT_VARS, useValue: env },
     { provide: ENVIRONMENT_CONFIG, useValue: envConfig },
   ])
     .bootstrapModule(AppModule)
     .catch(err => console.error(err));
 }
 
-function init(vars: EnvironmentVars) {
+function init(vars: string) {
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
     bootstrapApp(vars);
   } else {
@@ -78,8 +78,9 @@ if (ServerAppConfigService.isServerRunningDetectedInBrowser()) {
    */
 
   //Si encuentra en local storage env
-  if (localStorage.getItem('env')) {
-    init({ env: localStorage.getItem('env') as Environment });
+  const localStorageEnv = localStorage.getItem('env');
+  if (localStorageEnv) {
+    init(localStorageEnv);
   } else {
     //Si no encuentra local storage salta a buscar opcion
     openEnvironmentMenuOptions();

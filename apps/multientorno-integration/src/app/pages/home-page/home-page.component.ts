@@ -3,7 +3,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CONFIG } from '../../app.module';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { EnvironmentVars } from 'apps/multientorno-integration/src/environments/environment-vars.model';
 @Component({
   selector: 'ngx-shared-home-page',
   standalone: true,
@@ -15,7 +14,7 @@ import { EnvironmentVars } from 'apps/multientorno-integration/src/environments/
 export class HomePageComponent implements OnInit {
     resultadoEnv = 'nada'
 
-    constructor(@Inject(CONFIG) private readonly config: EnvironmentVars){}
+    constructor(@Inject(CONFIG) private readonly config: any){}
 
     ngOnInit(): void {
       this.resultadoEnv = this.config.env;
