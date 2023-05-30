@@ -10,7 +10,7 @@ import { ENVIRONMENT_CONFIG } from '../src/tokens/environment-config.token';
 import { AppServerModule } from '../src/main.server';
 import { EnvironmentConfig, getEnvironmentConfigByEnv } from '../src/config/environment-config';
 import { APP_INITIALIZER, Injector } from '@angular/core';
-import { ServerAppConfigService } from '../src/app/services/server-app-config.service';
+import { ServerMultienvironmentConfigService } from '../src/app/services/server-multienvironment-config.service';
 import { ENVIRONMENT_NAME } from '../src/tokens/environment-name.token';
 
 export class Server {
@@ -18,8 +18,7 @@ export class Server {
   private port = process.env['PORT'] || 4000;
   private distFolder = join(process.cwd(), 'dist/apps/multientorno-integration/browser');
   private startDate = new Date().toISOString();
-  //TODO environment name
-  private envSelected?: string;
+  private env?: string;
   private envConfig?: EnvironmentConfig;
 
   constructor(
@@ -39,7 +38,7 @@ export class Server {
 
   async run() {
     const { env, config } = await this.initServerMultiEnvironment({ envVar: 'APP_ENVIRONMENT', defaultEnv: 'pro' });
-    this.envSelected = env;
+    this.env = env;
     this.envConfig = config;
     this.server.listen(this.port, () => {
       this.startDate = new Date().toISOString();
@@ -47,7 +46,7 @@ export class Server {
         JSON.stringify({
           time: this.startDate,
           type: 'info',
-          message: `SERVER READY in env: ${this.envSelected} with mode:. Node Express server listening on PORT: ${this.port}`,
+          message: `SERVER READY in env: ${this.env} with mode:. Node Express server listening on PORT: ${this.port}`,
         })
       );
     });
@@ -69,7 +68,7 @@ export class Server {
     // health status check service
     this.server.get('/healthz', (_req, res) =>
       res.json({
-        environment: this.envSelected,
+        environment: this.env,
         startDate: this.startDate,
       })
     );
@@ -86,12 +85,11 @@ export class Server {
         providers: [
           { provide: APP_BASE_HREF, useValue: req.baseUrl },
           { provide: ENVIRONMENT_CONFIG, useValue: this.envConfig },
-          { provide: ENVIRONMENT_NAME, useValue: this.envSelected },
+          { provide: ENVIRONMENT_NAME, useValue: this.env },
           {
             provide: APP_INITIALIZER,
             useFactory: (injector: Injector) => () =>
-              //TODO name ServermultienvironmentConfigService
-              { injector.get(ServerAppConfigService).init({ envVars: this.envSelected ?? 'dev' }) },
+              { injector.get(ServerMultienvironmentConfigService ).init({ envVars: this.env ?? 'dev' }) },
             deps: [Injector],
             multi: true,
           },

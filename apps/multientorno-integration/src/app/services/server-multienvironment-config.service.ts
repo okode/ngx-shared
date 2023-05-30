@@ -4,7 +4,7 @@ import { DOCUMENT } from '@angular/common';
 @Injectable({
   providedIn: 'root',
 })
-export class ServerAppConfigService {
+export class ServerMultienvironmentConfigService {
   constructor(@Inject(DOCUMENT) private readonly document: Document) {}
 
   init(config: { envVars: string }) {
