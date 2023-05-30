@@ -8,7 +8,7 @@ import { ServerAppConfigService } from './app/services/server-app-config.service
 
 let selectedEnvironment = '';
 
-function openEnvironmentOptions() {
+function openEnvironmentMenuOptions() {
   fetch('/selected-environments.json')
     .then(response => response.json())
     .then(vars => {
@@ -20,23 +20,24 @@ function openEnvironmentOptions() {
         menu?.appendChild(buttonElement);
       });
     })
-    .then(() => buttonsClickAction())
+    .then(() => bindEnvironmentButtonEvent())
     .catch(() => console.log('ERROR'));
 }
 
-function buttonsClickAction() {
+
+function bindEnvironmentButtonEvent() {
   const button = Array.from(document.getElementsByClassName('c-btn-env'));
   button.forEach(btn => {
     btn.addEventListener('click', () => {
       selectedEnvironment = btn.innerHTML;
       localStorage.setItem('env', selectedEnvironment);
-      closeEnvironmentOptions();
+      closeEnvironmentMenuOptions();
       init({ env: selectedEnvironment });
     });
   });
 }
 
-function closeEnvironmentOptions() {
+function closeEnvironmentMenuOptions() {
   const menu = document.getElementById('menu-env');
   if (menu) {
     menu.className = 'c-menu--closed';
@@ -81,6 +82,6 @@ if (ServerAppConfigService.isServerRunningDetectedInBrowser()) {
     init({ env: localStorage.getItem('env') as Environment });
   } else {
     //Si no encuentra local storage salta a buscar opcion
-    openEnvironmentOptions();
+    openEnvironmentMenuOptions();
   }
 }
