@@ -1,3 +1,3 @@
 export const environment = {
-  env: 'locall',
+  env: 'local',
 } as const;

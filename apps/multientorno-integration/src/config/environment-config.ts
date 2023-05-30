@@ -1,4 +1,4 @@
-const envConfigMap: Record<string, () => Promise<unknown>> = {
+const envConfigMap: Record<string, () => Promise<EnvironmentConfig>> = {
     testing: () => import('../environments/environment.testing').then(d => d.environment),
     local: () => import('../environments/environment.local').then(d => d.environment),
     dev: () => import('../environments/environment.dev').then(d => d.environment),
@@ -7,3 +7,7 @@ const envConfigMap: Record<string, () => Promise<unknown>> = {
   };
 
 export const getEnvironmentConfigByEnv = (env: string) => envConfigMap[env]();
+
+export interface EnvironmentConfig {
+  env: string
+}

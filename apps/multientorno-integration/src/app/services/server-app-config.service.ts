@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { EnvironmentConfig } from '../../config/environment-config';
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +22,12 @@ export class ServerAppConfigService {
     return envVarsAsText ? JSON.parse(envVarsAsText) : null;
   }
 
-  init(config: { envVars: unknown }) {
+  init(config: { envVars: string }) {
     this.registerServerEnvVars(config.envVars);
     this.setServerRunningFlag();
   }
 
-  private registerServerEnvVars(envVars: unknown) {
+  private registerServerEnvVars(envVars: string) {
     const envConfigScript = this.document.createElement('script');
     envConfigScript.id = ServerAppConfigService.ENV_VARS_STATE_KEY;
     envConfigScript.type = 'application/json';
