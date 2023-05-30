@@ -7,10 +7,7 @@ import { ENVIRONMENT_CONFIG } from '../tokens/environment-config.token';
 
 export const configFactory = () => {
   const envConfig = inject(ENVIRONMENT_CONFIG);
-  const config = {
-    ...envConfig,
-  };
-  return config;
+  return envConfig;
 };
 
 export const CONFIG = new InjectionToken<any>('APP_CONFIG');
@@ -21,9 +18,7 @@ export const CONFIG = new InjectionToken<any>('APP_CONFIG');
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
   ],
-  providers: [
-    { provide: CONFIG, useFactory: configFactory },
-  ],
+  providers: [{ provide: CONFIG, useFactory: configFactory }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

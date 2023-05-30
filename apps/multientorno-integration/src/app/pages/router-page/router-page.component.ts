@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CONFIG } from '../../app.module';
 @Component({
   selector: 'ngx-shared-router-page',
   standalone: true,
@@ -10,7 +9,4 @@ import { CONFIG } from '../../app.module';
   templateUrl: './router-page.component.html',
   styleUrls: ['./router-page.component.scss'],
 })
-export class RouterPageComponent  {
-    
-
-}
+export class RouterPageComponent  { }
