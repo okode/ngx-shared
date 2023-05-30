@@ -1,3 +1,3 @@
 export const environment = {
-  env: 'pre',
+  env: 'pree',
 } as const;

@@ -2,7 +2,6 @@ export interface EnvironmentConfig {
   env: string;
 }
 
-
 const envConfigMap: Record<string, () => Promise<EnvironmentConfig>> = {
     testing: () => import('../environments/environment.testing').then(d => d.environment),
     local: () => import('../environments/environment.local').then(d => d.environment),

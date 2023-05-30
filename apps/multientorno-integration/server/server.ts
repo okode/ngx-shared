@@ -7,9 +7,8 @@ import { join } from 'path';
 import { requestContext } from './interceptors/request-context';
 import { responseLogger } from './interceptors/response-logger';
 import { ENVIRONMENT_CONFIG } from '../src/tokens/environment-config.token';
-import { ENVIRONMENT_VARS } from '../src/tokens/environment-vars.token';
 import { AppServerModule } from '../src/main.server';
-import { EnvironmentConfig, getEnvironmentConfigByEnv } from '../src/environments/environment-config';
+import { EnvironmentConfig, getEnvironmentConfigByEnv } from '../src/config/environment-config';
 
 export class Server {
   private server: Application;
@@ -73,7 +72,6 @@ export class Server {
         res,
         providers: [
           { provide: APP_BASE_HREF, useValue: req.baseUrl },
-          { provide: ENVIRONMENT_VARS, useValue: this.envSelected },
           { provide: ENVIRONMENT_CONFIG, useValue: this.envConfig },
         ],
       });

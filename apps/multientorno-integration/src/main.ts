@@ -1,8 +1,6 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
-
-import { getEnvironmentConfigByEnv } from './environments/environment-config';
-import { ENVIRONMENT_VARS } from './tokens/environment-vars.token';
+import { getEnvironmentConfigByEnv } from './config/environment-config';
 import { ENVIRONMENT_CONFIG } from './tokens/environment-config.token';
 import { ServerAppConfigService } from './app/services/server-app-config.service';
 
@@ -23,7 +21,6 @@ function openEnvironmentMenuOptions() {
     .then(() => bindEnvironmentButtonEvent())
     .catch(() => console.log('ERROR'));
 }
-
 
 function bindEnvironmentButtonEvent() {
   const button = Array.from(document.getElementsByClassName('c-btn-env'));
@@ -49,10 +46,7 @@ async function bootstrapApp(env: string) {
    * https://github.com/angular/universal/issues/2906
    */
   const envConfig = await getEnvironmentConfigByEnv(env);
-  platformBrowserDynamic([
-    { provide: ENVIRONMENT_VARS, useValue: env },
-    { provide: ENVIRONMENT_CONFIG, useValue: envConfig },
-  ])
+  platformBrowserDynamic([{ provide: ENVIRONMENT_CONFIG, useValue: envConfig }])
     .bootstrapModule(AppModule)
     .catch(err => console.error(err));
 }
@@ -77,12 +71,12 @@ if (ServerAppConfigService.isServerRunningDetectedInBrowser()) {
    * as SPA without having server side.
    */
 
-  //Si encuentra en local storage env
   const localStorageEnv = localStorage.getItem('env');
+  // if finds local storage env init the app with it
   if (localStorageEnv) {
     init(localStorageEnv);
   } else {
-    //Si no encuentra local storage salta a buscar opcion
+    // if does not find local storage env, the menu to select env appears
     openEnvironmentMenuOptions();
   }
 }

@@ -3,7 +3,7 @@ import { ServerModule } from '@angular/platform-server';
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 import { ServerAppConfigService } from './services/server-app-config.service';
-import { ENVIRONMENT_VARS } from '../tokens/environment-vars.token';
+import { ENVIRONMENT_CONFIG } from '../tokens/environment-config.token';
 
 @NgModule({
   imports: [AppModule, ServerModule],
@@ -12,7 +12,7 @@ import { ENVIRONMENT_VARS } from '../tokens/environment-vars.token';
     {
       provide: APP_INITIALIZER,
       useFactory: (injector: Injector) => () =>
-        injector.get(ServerAppConfigService).init({ envVars: injector.get(ENVIRONMENT_VARS) }),
+        injector.get(ServerAppConfigService).init({ envVars: injector.get(ENVIRONMENT_CONFIG).env }),
       deps: [Injector],
       multi: true,
     },
