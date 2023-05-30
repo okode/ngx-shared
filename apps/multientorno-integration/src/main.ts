@@ -2,7 +2,6 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { getEnvironmentConfigByEnv } from './config/environment-config';
 import { ENVIRONMENT_CONFIG } from './tokens/environment-config.token';
-import { ServerAppConfigService } from './app/services/server-app-config.service';
 
 let selectedEnvironment = '';
 
@@ -28,6 +27,7 @@ function bindEnvironmentButtonEvent() {
     btn.addEventListener('click', () => {
       selectedEnvironment = btn.innerHTML;
       localStorage.setItem('env', selectedEnvironment);
+      (window as any).okcdApplicationEnvironment = selectedEnvironment;
       closeEnvironmentMenuOptions();
       init(selectedEnvironment);
     });
@@ -46,7 +46,10 @@ async function bootstrapApp(env: string) {
    * https://github.com/angular/universal/issues/2906
    */
   const envConfig = await getEnvironmentConfigByEnv(env);
-  platformBrowserDynamic([{ provide: ENVIRONMENT_CONFIG, useValue: envConfig }])
+  //TODO aqui los tres providers
+  platformBrowserDynamic([
+    { provide: ENVIRONMENT_CONFIG, useValue: envConfig }
+  ])
     .bootstrapModule(AppModule)
     .catch(err => console.error(err));
 }
@@ -59,24 +62,24 @@ function init(vars: string) {
   }
 }
 
-if (ServerAppConfigService.isServerRunningDetectedInBrowser()) {
-  /**
-   * Environment variables are set by server side environment variables. So, this check avoids an
-   * unnecessary XHR request to load a file whose content is completely irrelevant.
-   */
-  init(ServerAppConfigService.getServerEnvVars());
-} else {
-  /**
-   * Environment variables must be loaded from a local JSON file when the application is started
-   * as SPA without having server side.
-   */
+// TODO que sea lo que se importe de LA LIBRERIA y que este toda la logica dentro (las demas funciones)
+// initMultiEnvironmentApp({ environmentsLocation: }, env => {
+//   init(env)
+// });
 
-  const localStorageEnv = localStorage.getItem('env');
-  // if finds local storage env init the app with it
-  if (localStorageEnv) {
-    init(localStorageEnv);
-  } else {
-    // if does not find local storage env, the menu to select env appears
-    openEnvironmentMenuOptions();
-  }
+const environment = (window as any).okcdApplicationEnvironment || localStorage.getItem('env');
+
+if (environment) {
+  localStorage.setItem('env', environment);
+  (window as any).okcdApplicationEnvironment = environment;
+  init(environment);
+} else {
+  // if does not find local storage env, the menu to select env appears
+  openEnvironmentMenuOptions();
 }
+
+
+// getBrowserEnvironment() {
+// TODO hacer un check de si variable window existe para que no pete en server
+//   return (window as any).okcdApplicationEnvironment;
+// }

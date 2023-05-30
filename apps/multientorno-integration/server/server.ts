@@ -9,13 +9,17 @@ import { responseLogger } from './interceptors/response-logger';
 import { ENVIRONMENT_CONFIG } from '../src/tokens/environment-config.token';
 import { AppServerModule } from '../src/main.server';
 import { EnvironmentConfig, getEnvironmentConfigByEnv } from '../src/config/environment-config';
+import { APP_INITIALIZER, Injector } from '@angular/core';
+import { ServerAppConfigService } from '../src/app/services/server-app-config.service';
+import { ENVIRONMENT_NAME } from '../src/tokens/environment-name.token';
 
 export class Server {
   private server: Application;
   private port = process.env['PORT'] || 4000;
   private distFolder = join(process.cwd(), 'dist/apps/multientorno-integration/browser');
   private startDate = new Date().toISOString();
-  private envSelected =  process.env['APP_ENVIRONMENT'] ?? 'pro';
+  //TODO environment name
+  private envSelected?: string;
   private envConfig?: EnvironmentConfig;
 
   constructor(
@@ -27,8 +31,16 @@ export class Server {
     this.setExpressConfig();
   }
 
+  async initServerMultiEnvironment(opts: { envVar: string; defaultEnv: string; }) {
+    const env =  process.env[opts.envVar] ?? opts.defaultEnv;
+    const config = await getEnvironmentConfigByEnv(env);
+    return { env, config };
+  }
+
   async run() {
-    this.envConfig = await getEnvironmentConfigByEnv(this.envSelected);
+    const { env, config } = await this.initServerMultiEnvironment({ envVar: 'APP_ENVIRONMENT', defaultEnv: 'pro' });
+    this.envSelected = env;
+    this.envConfig = config;
     this.server.listen(this.port, () => {
       this.startDate = new Date().toISOString();
       console.log(
@@ -70,9 +82,19 @@ export class Server {
       return res.render(indexHtml, {
         req,
         res,
+        //TODO un provider que sea el config y otro provider que sea el name
         providers: [
           { provide: APP_BASE_HREF, useValue: req.baseUrl },
           { provide: ENVIRONMENT_CONFIG, useValue: this.envConfig },
+          { provide: ENVIRONMENT_NAME, useValue: this.envSelected },
+          {
+            provide: APP_INITIALIZER,
+            useFactory: (injector: Injector) => () =>
+              //TODO name ServermultienvironmentConfigService
+              { injector.get(ServerAppConfigService).init({ envVars: this.envSelected ?? 'dev' }) },
+            deps: [Injector],
+            multi: true,
+          },
         ],
       });
     });

@@ -5,17 +5,23 @@ import { AppComponent } from './app.component';
 import { ServerAppConfigService } from './services/server-app-config.service';
 import { ENVIRONMENT_CONFIG } from '../tokens/environment-config.token';
 
+
 @NgModule({
-  imports: [AppModule, ServerModule],
-  bootstrap: [AppComponent],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: (injector: Injector) => () =>
-        injector.get(ServerAppConfigService).init({ envVars: injector.get(ENVIRONMENT_CONFIG).env }),
+        //TODO name Servermultienvironment
+        injector.get(ServerAppConfigService).init({ envVars: (injector.get(ENVIRONMENT_CONFIG) as any).env }),
       deps: [Injector],
       multi: true,
-    },
-  ],
+    }
+  ]
+})
+export class ServerMultiEnvironmentModule {}
+
+@NgModule({
+  imports: [AppModule, ServerModule, ServerMultiEnvironmentModule],
+  bootstrap: [AppComponent],
 })
 export class AppServerModule {}
