@@ -7,3 +7,8 @@
 //   };
 
 // export const getEnvironmentConfigByEnv = (env: string) => envConfigMap[env]();
+
+
+export const getEnvironmentConfigByEnv = ( env: string) => {
+    return import(`../../../../../apps/multientorno-integration/src/environments/environment.${env}`).then(d => d.environment);
+  }
