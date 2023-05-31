@@ -1,2 +1,2 @@
 export * from './lib/multientorno.module';
-export * from './lib/services/init-main';
+export * from './lib/services/init-main.service';

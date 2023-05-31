@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { ENVIRONMENT_CONFIG } from '../tokens/environment-config.token';
-
 export const configFactory = () => {
   const envConfig = inject(ENVIRONMENT_CONFIG);
   return envConfig;
