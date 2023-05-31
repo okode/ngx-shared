@@ -8,7 +8,6 @@ import { requestContext } from './interceptors/request-context';
 import { responseLogger } from './interceptors/response-logger';
 import { ENVIRONMENT_CONFIG } from '../src/tokens/environment-config.token';
 import { AppServerModule } from '../src/main.server';
-import { EnvironmentConfig, getEnvironmentConfigByEnv } from '../src/config/environment-config';
 import { APP_INITIALIZER, Injector } from '@angular/core';
 import { ServerMultienvironmentConfigService } from '../src/app/services/server-multienvironment-config.service';
 import { ENVIRONMENT_NAME } from '../src/tokens/environment-name.token';
@@ -19,7 +18,7 @@ export class Server {
   private distFolder = join(process.cwd(), 'dist/apps/multientorno-integration/browser');
   private startDate = new Date().toISOString();
   private env?: string;
-  private envConfig?: EnvironmentConfig;
+  private envConfig?: unknown;
 
   constructor(
   ) {
@@ -32,7 +31,8 @@ export class Server {
 
   async initServerMultiEnvironment(opts: { envVar: string; defaultEnv: string; }) {
     const env =  process.env[opts.envVar] ?? opts.defaultEnv;
-    const config = await getEnvironmentConfigByEnv(env);
+    // const config = await getEnvironmentConfigByEnv(env);
+    const config = { env: env};
     return { env, config };
   }
 
@@ -89,7 +89,7 @@ export class Server {
           {
             provide: APP_INITIALIZER,
             useFactory: (injector: Injector) => () =>
-              { injector.get(ServerMultienvironmentConfigService ).init({ envVars: this.env ?? 'dev' }) },
+              { injector.get(ServerMultienvironmentConfigService ).init({ envVars: this.env ?? '' }) },
             deps: [Injector],
             multi: true,
           },
