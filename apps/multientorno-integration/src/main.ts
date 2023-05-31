@@ -1,9 +1,12 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
-import { getEnvironmentConfigByEnv } from './config/environment-config';
 import { ENVIRONMENT_CONFIG } from './tokens/environment-config.token';
 import { initMultiEnvironmentApp } from '@okode/multientorno'
+import { ENVIRONMENT_NAME } from './tokens/environment-name.token';
 
+const getEnvironmentConfigByEnv = ( env: string) => {
+  return import(`../src/environments/environment.${env}`).then(d => d.environment);
+}
 
 initMultiEnvironmentApp('/selected-environments.json', (env: string) => {
   init(env)
@@ -18,10 +21,11 @@ function init(env: string) {
 }
 
 async function bootstrapApp(env: string) {
-
   const envConfig = await getEnvironmentConfigByEnv(env);
+
   platformBrowserDynamic([
-    { provide: ENVIRONMENT_CONFIG, useValue: envConfig }
+    { provide: ENVIRONMENT_CONFIG, useValue: envConfig },
+    { provide: ENVIRONMENT_NAME, useValue: env },
   ])
     .bootstrapModule(AppModule)
     .catch(err => console.error(err));
