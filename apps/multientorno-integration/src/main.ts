@@ -1,8 +1,7 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
-import { ENVIRONMENT_CONFIG } from './tokens/environment-config.token';
-import { initMultiEnvironmentApp } from '@okode/multientorno'
-import { ENVIRONMENT_NAME } from './tokens/environment-name.token';
+import { ENVIRONMENT_CONFIG, ENVIRONMENT_NAME, initMultiEnvironmentApp } from '@okode/multientorno';
+
 
 const getEnvironmentConfigByEnv = ( env: string) => {
   return import(`../src/environments/environment.${env}`).then(d => d.environment);

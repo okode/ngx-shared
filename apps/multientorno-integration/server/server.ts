@@ -6,12 +6,11 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import { requestContext } from './interceptors/request-context';
 import { responseLogger } from './interceptors/response-logger';
-import { ENVIRONMENT_CONFIG } from '../src/tokens/environment-config.token';
 import { AppServerModule } from '../src/main.server';
 import { APP_INITIALIZER, Injector } from '@angular/core';
-import { ServerMultienvironmentConfigService } from '../src/app/services/server-multienvironment-config.service';
-import { ENVIRONMENT_NAME } from '../src/tokens/environment-name.token';
-
+import { ServerMultienvironmentConfigService } from '@okode/multientorno';
+import { ENVIRONMENT_CONFIG } from '@okode/multientorno';
+import { ENVIRONMENT_NAME } from '@okode/multientorno';
 export class Server {
   private server: Application;
   private port = process.env['PORT'] || 4000;

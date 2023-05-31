@@ -4,12 +4,15 @@ function openEnvironmentMenuOptions(jsonPath: string, callbackInit: any) {
   fetch(jsonPath)
     .then(response => response.json())
     .then(jsonOptions => {
-      const menu = document.getElementById('menu-env');
+      const div = document.createElement('div');
+      div.className = 'c-menu'
+      div.id = 'menu-env'
+      document.body.appendChild(div);
       jsonOptions['envOptions'].forEach((env: string) => {
         const buttonElement = document.createElement('button');
         buttonElement.className = 'c-btn-env';
         buttonElement.innerText = `${env}`;
-        menu?.appendChild(buttonElement);
+        div.appendChild(buttonElement);
       });
     })
     .then(() => bindEnvironmentButtonEvent(callbackInit))
