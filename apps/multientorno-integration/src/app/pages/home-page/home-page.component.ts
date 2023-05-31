@@ -12,7 +12,7 @@ import { CONFIG } from '../../app.module';
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit {
-    resultadoEnv = 'No se ha podido seleccionar entorno'
+    resultadoEnv = 'No se ha podido seleccionar entorno';
 
     constructor(@Inject(CONFIG) private readonly config: any){}
 
