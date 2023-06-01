@@ -17,7 +17,7 @@ export class HomePageComponent implements OnInit {
     constructor(@Inject(CONFIG) private readonly config: any){}
 
     ngOnInit(): void {
-      this.resultadoEnv = this.config.env;
+      this.resultadoEnv = JSON.stringify(this.config);
     }
 
 }

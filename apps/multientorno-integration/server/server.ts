@@ -7,10 +7,8 @@ import { join } from 'path';
 import { requestContext } from './interceptors/request-context';
 import { responseLogger } from './interceptors/response-logger';
 import { AppServerModule } from '../src/main.server';
-import { APP_INITIALIZER, Injector } from '@angular/core';
-import { ServerMultienvironmentConfigService } from '@okode/multientorno';
 import { ENVIRONMENT_CONFIG } from '@okode/multientorno';
-import { ENVIRONMENT_NAME } from '@okode/multientorno';
+import { ENVIRONMENT, initServerMultiEnvironmentApp } from '@okode/multientorno';
 export class Server {
   private server: Application;
   private port = process.env['PORT'] || 4000;
@@ -28,24 +26,17 @@ export class Server {
     this.setExpressConfig();
   }
 
-  async initServerMultiEnvironment(opts: { envVar: string; defaultEnv: string; }) {
-    const env =  process.env[opts.envVar] ?? opts.defaultEnv;
-    // const config = await getEnvironmentConfigByEnv(env);
-    const config = { env: env};
-    return { env, config };
-  }
-
   async run() {
-    const { env, config } = await this.initServerMultiEnvironment({ envVar: 'APP_ENVIRONMENT', defaultEnv: 'pro' });
+    const { env, envConfig } = await initServerMultiEnvironmentApp({ envVar: 'APP_ENVIRONMENT', defaultEnv: 'pro', distFolder: this.distFolder, environmentsJsonFilePath: 'http://localhost:' });
     this.env = env;
-    this.envConfig = config;
+    this.envConfig = envConfig;
     this.server.listen(this.port, () => {
       this.startDate = new Date().toISOString();
       console.log(
         JSON.stringify({
           time: this.startDate,
           type: 'info',
-          message: `SERVER READY in env: ${this.env} with mode:. Node Express server listening on PORT: ${this.port}`,
+          message: `SERVER READY in env: ${this.env}. Node Express server listening on PORT: ${this.port}`,
         })
       );
     });
@@ -83,15 +74,8 @@ export class Server {
         //TODO un provider que sea el config y otro provider que sea el name
         providers: [
           { provide: APP_BASE_HREF, useValue: req.baseUrl },
+          { provide: ENVIRONMENT, useValue: this.env },
           { provide: ENVIRONMENT_CONFIG, useValue: this.envConfig },
-          { provide: ENVIRONMENT_NAME, useValue: this.env },
-          {
-            provide: APP_INITIALIZER,
-            useFactory: (injector: Injector) => () =>
-              { injector.get(ServerMultienvironmentConfigService ).init({ envVars: this.env ?? '' }) },
-            deps: [Injector],
-            multi: true,
-          },
         ],
       });
     });

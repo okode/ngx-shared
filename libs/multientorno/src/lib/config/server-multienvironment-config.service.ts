@@ -7,14 +7,14 @@ import { DOCUMENT } from '@angular/common';
 export class ServerMultienvironmentConfigService {
   constructor(@Inject(DOCUMENT) private readonly document: Document) {}
 
-  init(config: { envVars: string }) {
-    this.registerServerEnvVars(config.envVars);
+  init(config: { env: string; }) {
+    this.setDocumentApplicationEnvironment(config.env);
   }
 
-  private registerServerEnvVars(envVars: string) {
-    const envConfigScript = this.document.createElement('script');
-    envConfigScript.type = 'application/javascript';
-    envConfigScript.text = `window.okcdApplicationEnvironment = '${envVars}'`;
-    this.document.head.appendChild(envConfigScript);
+  private setDocumentApplicationEnvironment(env: string) {
+    const envScript = this.document.createElement('script');
+    envScript.type = 'application/javascript';
+    envScript.text = `window.okcdApplicationEnvironment = '${env}'`;
+    this.document.head.appendChild(envScript);
   }
 }

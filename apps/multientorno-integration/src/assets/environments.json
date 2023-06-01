@@ -1,0 +1,11 @@
+{
+  "dev": {
+    "baseUrl": "https://okode.dev.com"
+  },
+  "pre": {
+    "baseUrl": "https://okode.pre.com"
+  },
+  "pro": {
+    "baseUrl": "https://okode.pro.com"
+  }
+}

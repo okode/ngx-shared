@@ -1,24 +1,24 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
-import { initMultiEnvironmentApp, provideMultienvironmentConfig, getEnvironmentConfigByEnv} from '@okode/multientorno';
+import { initMultiEnvironmentApp, ENVIRONMENT, ENVIRONMENT_CONFIG} from '@okode/multientorno';
 
 
-initMultiEnvironmentApp({jsonPath: '/selected-environments.json'}, (env: string) => {
-  init(env)
-});
-
-function init(env: string) {
+function init() {
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    bootstrapApp(env);
+    bootstrapApp();
   } else {
-    document.addEventListener('DOMContentLoaded', () => bootstrapApp(env));
+    document.addEventListener('DOMContentLoaded', () => bootstrapApp());
   }
 }
 
-async function bootstrapApp(env: string) {
-  const envConfig = await getEnvironmentConfigByEnv(env);
-
-  platformBrowserDynamic(provideMultienvironmentConfig(env, envConfig))
+async function bootstrapApp() {
+  const { env, envConfig } = await initMultiEnvironmentApp({});
+  platformBrowserDynamic([
+    { provide: ENVIRONMENT, useValue: env },
+    { provide: ENVIRONMENT_CONFIG, useValue: envConfig },
+  ])
     .bootstrapModule(AppModule)
     .catch(err => console.error(err));
 }
+
+init();
