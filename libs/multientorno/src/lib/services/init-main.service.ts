@@ -1,6 +1,6 @@
 let selectedEnvironment = '';
 
-function openEnvironmentMenuOptions(jsonPath: string, callbackInit: any) {
+function openEnvironmentMenuOptions(jsonPath: string, initMain: any) {
   fetch(jsonPath)
     .then(response => response.json())
     .then(jsonOptions => {
@@ -15,11 +15,11 @@ function openEnvironmentMenuOptions(jsonPath: string, callbackInit: any) {
         div.appendChild(buttonElement);
       });
     })
-    .then(() => bindEnvironmentButtonEvent(callbackInit))
+    .then(() => bindEnvironmentButtonEvent(initMain))
     .catch(() => console.log('ERROR'));
 }
 
-function bindEnvironmentButtonEvent(callbackInit: any) {
+function bindEnvironmentButtonEvent(initMain: any) {
   const button = Array.from(document.getElementsByClassName('c-btn-env'));
   button.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -27,7 +27,7 @@ function bindEnvironmentButtonEvent(callbackInit: any) {
       localStorage.setItem('env', selectedEnvironment);
       (window as any).okcdApplicationEnvironment = selectedEnvironment;
       closeEnvironmentMenuOptions();
-      callbackInit(selectedEnvironment);
+      initMain(selectedEnvironment);
     });
   });
 }
@@ -39,14 +39,14 @@ function closeEnvironmentMenuOptions() {
   }
 }
 
-export function initMultiEnvironmentApp(jsonPath: string, callbackInit: any) {
+export function initMultiEnvironmentApp(options: any, initMain: any) {
   const environment = (window as any).okcdApplicationEnvironment || localStorage.getItem('env');
 
   if (environment) {
     localStorage.setItem('env', environment);
     (window as any).okcdApplicationEnvironment = environment;
-    callbackInit(environment);
+    initMain(environment);
   } else {
-    openEnvironmentMenuOptions(jsonPath, callbackInit);
+    openEnvironmentMenuOptions(options.jsonPath, initMain);
   }
 }

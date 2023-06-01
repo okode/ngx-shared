@@ -3,7 +3,7 @@ import { AppModule } from './app/app.module';
 import { initMultiEnvironmentApp, provideMultienvironmentConfig, getEnvironmentConfigByEnv} from '@okode/multientorno';
 
 
-initMultiEnvironmentApp('/selected-environments.json', (env: string) => {
+initMultiEnvironmentApp({jsonPath: '/selected-environments.json'}, (env: string) => {
   init(env)
 });
 

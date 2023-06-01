@@ -1,7 +1,8 @@
-export const getEnvironmentConfigByEnv = (env: string) => {
-  return import(`/src/environments/environment.${env}`)
+export const getEnvironmentConfigByEnv = (path: string) => {
+  return import(`/src/environments/environment.${path}`)
     .then(d => d.environment)
     .catch(() => {
+      // TODO
       console.log('No se encuentra el entorno');
     });
 };
