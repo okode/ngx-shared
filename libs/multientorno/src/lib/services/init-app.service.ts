@@ -18,6 +18,7 @@ async function showEnvironmentOptions(environmentsJsonFilePath?: string) {
 async function showActionSheet(options: string[]) {
   return new Promise(resolve => {
     const div = document.createElement('div');
+    //div.styles = ''
     document.body.appendChild(div);
     const selectOption = (option: string) => {
       resolve(option);
