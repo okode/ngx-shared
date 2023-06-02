@@ -71,7 +71,6 @@ export class Server {
       return res.render(indexHtml, {
         req,
         res,
-        //TODO un provider que sea el config y otro provider que sea el name
         providers: [
           { provide: APP_BASE_HREF, useValue: req.baseUrl },
           { provide: ENVIRONMENT, useValue: this.env },

@@ -1,5 +1,6 @@
 import { getEnvConfig } from "./get-env-config.service";
 import { getEnvironments } from "./get-environments.service";
+import { addStyles, buttonStyles, divStyles } from "../styles/styles";
 
 const ENVIRONMENT_STORAGE_KEY = 'OKCD_APPLICATION_ENVIRONMENT';
 
@@ -18,16 +19,16 @@ async function showEnvironmentOptions(environmentsJsonFilePath?: string) {
 async function showActionSheet(options: string[]) {
   return new Promise(resolve => {
     const div = document.createElement('div');
-    //div.styles = ''
     document.body.appendChild(div);
+    addStyles(div, divStyles);
     const selectOption = (option: string) => {
       resolve(option);
       div.remove();
     };
     options.forEach((env: string) => {
       const buttonElement = document.createElement('button');
-      buttonElement.className = 'c-btn-env';
       buttonElement.innerText = `${env}`;
+      addStyles(buttonElement, buttonStyles);
       buttonElement.addEventListener('click', () => selectOption(env));
       div.appendChild(buttonElement);
     });
