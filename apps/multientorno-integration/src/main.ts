@@ -7,7 +7,7 @@ function init() {
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
     bootstrapApp();
   } else {
-    document.addEventListener('DOMContentLoaded', () => bootstrapApp());
+    document.addEventListener('DOMContentLoaded', () => { bootstrapApp(); });
   }
 }
 

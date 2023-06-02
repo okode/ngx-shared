@@ -27,7 +27,13 @@ export class Server {
   }
 
   async run() {
-    const { env, envConfig } = await initServerMultiEnvironmentApp({ envVar: 'APP_ENVIRONMENT', defaultEnv: 'pro', distFolder: this.distFolder, environmentsJsonFilePath: '/assets/environments.json' });
+    const { env, envConfig } = await initServerMultiEnvironmentApp(
+      {
+        envVar: 'APP_ENVIRONMENT',
+        defaultEnv: 'pro',
+        distFolder: this.distFolder
+      }
+    );
     this.env = env;
     this.envConfig = envConfig;
     this.server.listen(this.port, () => {

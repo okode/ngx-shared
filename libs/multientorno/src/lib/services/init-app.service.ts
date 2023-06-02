@@ -8,16 +8,34 @@ async function showEnvironmentOptions(environmentsJsonFilePath?: string) {
   const environments = await getEnvironments(environmentsJsonFilePath);
   const envKeys = Object.keys(environments);
   if (envKeys.length === 1) {
-    const environment = environments[envKeys[0]];
+    const environment = envKeys[0];
     return Promise.resolve(environment);
   } else {
-    const environment = await showActionSheet(envKeys);
-    return Promise.resolve(environment);
+    const lastSelectedEnvironment = getStoredEnvironment();
+    if (lastSelectedEnvironment) {
+      return Promise.resolve(lastSelectedEnvironment);
+    } else {
+      const environment = await showActionSheet(envKeys);
+      saveStoredEnvironment(environment);
+      return Promise.resolve(environment);
+    }
   }
 }
 
+function getStoredEnvironment() {
+  return localStorage.getItem(ENVIRONMENT_STORAGE_KEY);
+}
+
+function saveStoredEnvironment(env: string) {
+  localStorage.setItem(ENVIRONMENT_STORAGE_KEY, env);
+}
+
+function clearStoredEnvironment() {
+  localStorage.removeItem(ENVIRONMENT_STORAGE_KEY);
+}
+
 async function showActionSheet(options: string[]) {
-  return new Promise(resolve => {
+  return new Promise<string>(resolve => {
     const div = document.createElement('div');
     document.body.appendChild(div);
 
@@ -37,30 +55,26 @@ async function showActionSheet(options: string[]) {
 }
 
 function getBrowserEnvironment() {
-  return (window as any).okcdApplicationEnvironment || localStorage.getItem(ENVIRONMENT_STORAGE_KEY);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (window as any).okcdApplicationEnvironment;
 }
 
-function saveBrowserEnvironment(env: string) {
+function setBrowserEnvironment(env: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as any).okcdApplicationEnvironment = env;
-  localStorage.setItem(ENVIRONMENT_STORAGE_KEY, env);
-}
-
-function clearBrowserEnvironment() {
-  delete (window as any).okcdApplicationEnvironment;
-  localStorage.removeItem(ENVIRONMENT_STORAGE_KEY);
 }
 
 export async function initMultiEnvironmentApp({ environmentsJsonFilePath }: { environmentsJsonFilePath?: string; }) {
   let env = getBrowserEnvironment();
   if (!env) {
     env = await showEnvironmentOptions();
-    saveBrowserEnvironment(env);
+    setBrowserEnvironment(env);
   }
 
   const envConfig = await getEnvConfig({ env, environmentsJsonFilePath });
 
   if (!envConfig) {
-    clearBrowserEnvironment();
+    clearStoredEnvironment();
     throw new Error(`Couldn't load browser environments`);
   }
 
