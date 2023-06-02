@@ -20,6 +20,7 @@ async function showActionSheet(options: string[]) {
   return new Promise(resolve => {
     const div = document.createElement('div');
     document.body.appendChild(div);
+
     addStyles(div, divStyles);
     const selectOption = (option: string) => {
       resolve(option);

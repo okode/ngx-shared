@@ -2,7 +2,8 @@ export function addStyles(e: HTMLElement, styles: Partial<CSSStyleDeclaration>) 
     Object.entries(styles).forEach(([property, value]) => {
       (e.style as any)[property] = value;
     });
-  }
+}
+
 export const buttonStyles = {
   backgroundColor: 'white',
   appearance: 'none',

@@ -11,7 +11,7 @@ export async function initServerMultiEnvironmentApp({
     throw new Error(`Couldn't load server environment`);
   }
 
-  const envConfig = await getServerEnvConfig({ env, distFolder, environmentsJsonFilePath, fallbackEnv: defaultEnv });
+  const envConfig = await getServerEnvConfig({ env, distFolder, environmentsJsonFilePath });
   if (!envConfig) {
     throw new Error(`Couldn't load server environment config`);
   }
