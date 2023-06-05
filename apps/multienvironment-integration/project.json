@@ -1,26 +1,26 @@
 {
-  "name": "multientorno-integration",
+  "name": "multienvironment-integration",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "ngx-shared",
-  "sourceRoot": "apps/multientorno-integration/src",
+  "sourceRoot": "apps/multienvironment-integration/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/multientorno-integration/browser",
-        "index": "apps/multientorno-integration/src/index.html",
-        "main": "apps/multientorno-integration/src/main.ts",
+        "outputPath": "dist/apps/multienvironment-integration/browser",
+        "index": "apps/multienvironment-integration/src/index.html",
+        "main": "apps/multienvironment-integration/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/multientorno-integration/tsconfig.app.json",
+        "tsConfig": "apps/multienvironment-integration/tsconfig.app.json",
         "assets": [
-          "apps/multientorno-integration/src/favicon.ico",
-          "apps/multientorno-integration/src/assets",
-          "apps/multientorno-integration/src/selected-environments.json"
+          "apps/multienvironment-integration/src/favicon.ico",
+          "apps/multienvironment-integration/src/assets",
+          "apps/multienvironment-integration/src/selected-environments.json"
         ],
-        "styles": ["apps/multientorno-integration/src/styles.scss"],
+        "styles": ["apps/multienvironment-integration/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -54,10 +54,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "multientorno-integration:build:production"
+          "browserTarget": "multienvironment-integration:build:production"
         },
         "development": {
-          "browserTarget": "multientorno-integration:build:development"
+          "browserTarget": "multienvironment-integration:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -65,7 +65,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "multientorno-integration:build"
+        "browserTarget": "multienvironment-integration:build"
       }
     },
     "lint": {
@@ -73,8 +73,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "apps/multientorno-integration/**/*.ts",
-          "apps/multientorno-integration/**/*.html"
+          "apps/multienvironment-integration/**/*.ts",
+          "apps/multienvironment-integration/**/*.html"
         ]
       }
     },
@@ -82,7 +82,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/multientorno-integration/jest.config.ts",
+        "jestConfig": "apps/multienvironment-integration/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -96,9 +96,9 @@
       "dependsOn": ["build"],
       "executor": "@angular-devkit/build-angular:server",
       "options": {
-        "outputPath": "dist/apps/multientorno-integration/server",
-        "main": "apps/multientorno-integration/server.ts",
-        "tsConfig": "apps/multientorno-integration/tsconfig.server.json"
+        "outputPath": "dist/apps/multienvironment-integration/server",
+        "main": "apps/multienvironment-integration/server.ts",
+        "tsConfig": "apps/multienvironment-integration/tsconfig.server.json"
       },
       "configurations": {
         "production": {
@@ -116,12 +116,12 @@
       "executor": "@nguniversal/builders:ssr-dev-server",
       "configurations": {
         "development": {
-          "browserTarget": "multientorno-integration:build:development",
-          "serverTarget": "multientorno-integration:server:development"
+          "browserTarget": "multienvironment-integration:build:development",
+          "serverTarget": "multienvironment-integration:server:development"
         },
         "production": {
-          "browserTarget": "multientorno-integration:build:production",
-          "serverTarget": "multientorno-integration:server:production"
+          "browserTarget": "multienvironment-integration:build:production",
+          "serverTarget": "multienvironment-integration:server:production"
         }
       },
       "defaultConfiguration": "development"
@@ -133,12 +133,12 @@
       },
       "configurations": {
         "development": {
-          "browserTarget": "multientorno-integration:build:development",
-          "serverTarget": "multientorno-integration:server:development"
+          "browserTarget": "multienvironment-integration:build:development",
+          "serverTarget": "multienvironment-integration:server:development"
         },
         "production": {
-          "browserTarget": "multientorno-integration:build:production",
-          "serverTarget": "multientorno-integration:server:production"
+          "browserTarget": "multienvironment-integration:build:production",
+          "serverTarget": "multienvironment-integration:server:production"
         }
       },
       "defaultConfiguration": "production"

@@ -1,6 +1,6 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
-import { initMultiEnvironmentApp, ENVIRONMENT, ENVIRONMENT_CONFIG} from '@okode/multientorno';
+import { initMultiEnvironmentApp, ENVIRONMENT, ENVIRONMENT_CONFIG} from '@okode/multienvironment';
 
 
 function init() {

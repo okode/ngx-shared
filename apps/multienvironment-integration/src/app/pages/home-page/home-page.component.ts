@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CONFIG } from '../../app.module';
+
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 @Component({
   selector: 'ngx-shared-home-page',
@@ -13,13 +14,13 @@ import { CONFIG } from '../../app.module';
 })
 export class HomePageComponent implements OnInit {
     envName = '';
-    resultadoEnv = 'No se ha podido seleccionar entorno';
+    envConfig = '';
 
     constructor(@Inject(CONFIG) private readonly config: any){}
 
     ngOnInit(): void {
       this.envName = this.config.env;
-      this.resultadoEnv = JSON.stringify(this.config);
+      this.envConfig = JSON.stringify(this.config);
     }
 
 }

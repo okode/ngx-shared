@@ -1,4 +1,4 @@
-export * from './lib/multientorno.module';
+export * from './lib/multienvironment.module';
 export * from './lib/services/init-app.service';
 export * from './lib/tokens/environment-config.token';
 export * from './lib/tokens/environment-name.token';

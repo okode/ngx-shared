@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
-import { ENVIRONMENT, ENVIRONMENT_CONFIG } from '@okode/multientorno';
+import { ENVIRONMENT, ENVIRONMENT_CONFIG } from '@okode/multienvironment';
 
 export const configFactory = () => {
   const envName = inject(ENVIRONMENT)

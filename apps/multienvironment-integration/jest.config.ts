@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'multientorno',
+  displayName: 'multienvironment-integration',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/libs/multientorno',
+  coverageDirectory: '../../coverage/apps/multienvironment-integration',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

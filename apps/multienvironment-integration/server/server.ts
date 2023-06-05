@@ -7,12 +7,13 @@ import { join } from 'path';
 import { requestContext } from './interceptors/request-context';
 import { responseLogger } from './interceptors/response-logger';
 import { AppServerModule } from '../src/main.server';
-import { ENVIRONMENT_CONFIG } from '@okode/multientorno';
-import { ENVIRONMENT, initServerMultiEnvironmentApp } from '@okode/multientorno';
+import { ENVIRONMENT_CONFIG } from '@okode/multienvironment';
+import { ENVIRONMENT, initServerMultiEnvironmentApp } from '@okode/multienvironment';
+
 export class Server {
   private server: Application;
   private port = process.env['PORT'] || 4000;
-  private distFolder = join(process.cwd(), 'dist/apps/multientorno-integration/browser');
+  private distFolder = join(process.cwd(), 'dist/apps/multienvironment-integration/browser');
   private startDate = new Date().toISOString();
   private env?: string;
   private envConfig?: unknown;
