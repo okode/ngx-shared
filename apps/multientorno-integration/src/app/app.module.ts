@@ -3,14 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
-import { ENVIRONMENT_CONFIG } from '@okode/multientorno';
+import { ENVIRONMENT, ENVIRONMENT_CONFIG } from '@okode/multientorno';
 
 export const configFactory = () => {
+  const envName = inject(ENVIRONMENT)
   const envConfig = inject(ENVIRONMENT_CONFIG);
-  return envConfig;
+  const appConfig = { ...envConfig as Record<string, unknown>,  env: envName,  }
+  return appConfig;
 };
 
-export const CONFIG = new InjectionToken<any>('APP_CONFIG');
+export const CONFIG = new InjectionToken<Record<string, unknown>>('APP_CONFIG');
 
 @NgModule({
   declarations: [AppComponent],

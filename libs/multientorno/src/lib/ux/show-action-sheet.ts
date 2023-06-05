@@ -2,19 +2,19 @@ export async function showActionSheet(options: string[]) {
   return new Promise<string>(resolve => {
     const actionSheet = document.createElement('div');
     const selectText = document.createElement('p');
+
     document.body.appendChild(actionSheet);
-
-    document.body.style.cssText = htmlStyles;
-    actionSheet.style.cssText = actionSheetStyles;
-    selectText.style.cssText =  selectTextStyles;
-
-    selectText.innerText = 'Select an environment';
     actionSheet.appendChild(selectText);
+    selectText.innerText = 'Select an environment';
 
+    document.body.style.cssText = bodyStyles;
+    actionSheet.style.cssText = actionSheetStyles;
+    selectText.style.cssText = selectTextStyles;
     actionSheet.animate(
       [{ transform: 'translate(-50%, 100%)' }, { transform: 'translate(-50%, 0)' }],
       { duration: 200 }
     );
+
     const selectOption = (option: string) => {
       resolve(option);
       actionSheet.remove();
@@ -24,7 +24,7 @@ export async function showActionSheet(options: string[]) {
 
     options.forEach((env: string) => {
       const buttonElement = document.createElement('button');
-      buttonElement.innerText = `${env}`;
+      buttonElement.innerText = env;
       buttonElement.style.cssText = buttonStyles;
       buttonElement.addEventListener('click', () => selectOption(env));
       actionSheet.appendChild(buttonElement);
@@ -32,10 +32,12 @@ export async function showActionSheet(options: string[]) {
   });
 }
 
-const htmlStyles = `height: 100%;
-    background-color: rgb(172, 172, 172);`;
+const bodyStyles = `height: 100%;
+    background-color: rgb(165, 165, 165);`;
 
 const actionSheetStyles = `position: fixed;
+    display: flex;
+    flex-direction: column;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
@@ -46,12 +48,8 @@ const actionSheetStyles = `position: fixed;
     border-radius: 20px;
     padding: 10px 10px 5px 10px;
     box-sizing: border-box;
-    animation: slideUp 0.5s ease-out forwards;
-    display: flex;
     text-align: center;
-    flex-direction: column;
-    margin-bottom: 20px;
-    margin-right: 20px;`;
+    margin-bottom: 20px;`;
 
 const buttonStyles = `cursor: pointer;
     -webkit-appearance: none;
@@ -65,9 +63,3 @@ const selectTextStyles = `
     font-family: Arial, Helvetica, sans-serif;
     color: rgb(165, 165, 165);
     padding-bottom: 10px;`;
-
-
-
-// .c-env-button:hover {
-//       color: rgb(24, 61, 185);
-// }

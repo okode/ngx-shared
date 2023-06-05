@@ -12,11 +12,13 @@ import { CONFIG } from '../../app.module';
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit {
+    envName = '';
     resultadoEnv = 'No se ha podido seleccionar entorno';
 
     constructor(@Inject(CONFIG) private readonly config: any){}
 
     ngOnInit(): void {
+      this.envName = this.config.env;
       this.resultadoEnv = JSON.stringify(this.config);
     }
 
