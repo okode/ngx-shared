@@ -1,6 +1,6 @@
 import { getEnvConfig } from "./get-env-config.service";
 import { getEnvironments } from "./get-environments.service";
-import { addStyles, buttonStyles, divStyles } from "../styles/styles";
+import { showActionSheet } from "../ux/show-action-sheet";
 
 const ENVIRONMENT_STORAGE_KEY = 'OKCD_APPLICATION_ENVIRONMENT';
 
@@ -34,25 +34,7 @@ function clearStoredEnvironment() {
   localStorage.removeItem(ENVIRONMENT_STORAGE_KEY);
 }
 
-async function showActionSheet(options: string[]) {
-  return new Promise<string>(resolve => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
 
-    addStyles(div, divStyles);
-    const selectOption = (option: string) => {
-      resolve(option);
-      div.remove();
-    };
-    options.forEach((env: string) => {
-      const buttonElement = document.createElement('button');
-      buttonElement.innerText = `${env}`;
-      addStyles(buttonElement, buttonStyles);
-      buttonElement.addEventListener('click', () => selectOption(env));
-      div.appendChild(buttonElement);
-    });
-  })
-}
 
 function getBrowserEnvironment() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
