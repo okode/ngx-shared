@@ -26,6 +26,8 @@ export async function showActionSheet(options: string[]) {
       const buttonElement = document.createElement('button');
       buttonElement.innerText = env;
       buttonElement.style.cssText = buttonStyles;
+      buttonElement.onmouseover = () => buttonElement.style.color = '#212CB2';
+      buttonElement.onmouseleave = () => buttonElement.style.color = '#4B71EB';
       buttonElement.addEventListener('click', () => selectOption(env));
       actionSheet.appendChild(buttonElement);
     });
@@ -33,7 +35,7 @@ export async function showActionSheet(options: string[]) {
 }
 
 const bodyStyles = `height: 100%;
-    background-color: rgb(165, 165, 165);`;
+    background-color: #A5A5A5;`;
 
 const actionSheetStyles = `position: fixed;
     display: flex;
@@ -44,7 +46,7 @@ const actionSheetStyles = `position: fixed;
     max-width: 600px;
     width: calc(100% - 40px);
     box-shadow: 3px 3px 10px rgb(132, 132, 132);
-    background-color: rgb(240, 240, 240);
+    background-color: #F0F0F0;
     border-radius: 20px;
     padding: 10px 10px 5px 10px;
     box-sizing: border-box;
@@ -56,10 +58,10 @@ const buttonStyles = `cursor: pointer;
     border: none;
     border-top: 1px solid rgb(198, 198, 198);
     font-size: 17px;
-    color: rgb(75, 113, 235);
+    color: #4B71EB;
     padding: 20px;`;
 
 const selectTextStyles = `
     font-family: Arial, Helvetica, sans-serif;
-    color: rgb(165, 165, 165);
+    color: #A5A5A5;
     padding-bottom: 10px;`;
