@@ -12,7 +12,7 @@ export async function showActionSheet(options: string[]) {
     selectText.style.cssText = selectTextStyles;
     actionSheet.animate(
       [{ transform: 'translate(-50%, 100%)' }, { transform: 'translate(-50%, 0)' }],
-      { duration: 200 }
+      { duration: 250 }
     );
 
     const selectOption = (option: string) => {
