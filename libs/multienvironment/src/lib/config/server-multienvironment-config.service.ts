@@ -7,14 +7,18 @@ import { DOCUMENT } from '@angular/common';
 export class ServerMultiEnvironmentConfigService {
   constructor(@Inject(DOCUMENT) private readonly document: Document) {}
 
-  init(config: { env: string }) {
-    this.setDocumentApplicationEnvironment(config.env);
+  init(options: { env: string, envConfig: Record<string, unknown>}) {
+    this.setDocumentApplicationEnvironment(options.env, options.envConfig);
   }
 
-  private setDocumentApplicationEnvironment(env: string) {
+  private setDocumentApplicationEnvironment(
+    env: string,
+    config: Record<string, unknown>
+  ) {
     const envScript = this.document.createElement('script');
     envScript.type = 'application/javascript';
-    envScript.text = `window.okcdApplicationEnvironment = '${env}'`;
+    const okcdApplicationEnvironment = { env, config };
+    envScript.text = `window.okcdApplicationEnvironment = ${JSON.stringify(okcdApplicationEnvironment)}`;
     this.document.head.appendChild(envScript);
   }
 }

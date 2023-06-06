@@ -2,9 +2,8 @@ import { getEnvironments } from "./get-environments.service";
 
 export async function getEnvConfig({
   env,
-  fallbackEnv,
   environmentsJsonFilePath
-}: { env: string; fallbackEnv?: string; environmentsJsonFilePath?: string }) {
+}: { env: string; environmentsJsonFilePath?: string }): Promise<Record<string, unknown> | undefined> {
   const environments = await getEnvironments(environmentsJsonFilePath);
-  return environments[env] ?? (fallbackEnv ? environments[fallbackEnv] : null);
+  return environments[env] as Record<string, unknown>;
 }

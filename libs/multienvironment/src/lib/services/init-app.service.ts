@@ -36,24 +36,26 @@ function clearStoredEnvironment() {
 
 function getBrowserEnvironment() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (window as any).okcdApplicationEnvironment;
+  return (window as any).okcdApplicationEnvironment as { env: string; config: Record<string, unknown>} | undefined;
 }
 
-function setBrowserEnvironment(env: string) {
+function setBrowserEnvironment(env: string, config: Record<string, unknown>) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (window as any).okcdApplicationEnvironment = env;
+  (window as any).okcdApplicationEnvironment = { env, config };
 }
 
 export async function initMultiEnvironmentApp({ environmentsJsonFilePath }: { environmentsJsonFilePath?: string; }) {
-  let env = getBrowserEnvironment();
+  const browserEnvironment = getBrowserEnvironment();
+  let env = browserEnvironment?.env;
   if (!env) {
     env = await showEnvironmentOptions();
-    setBrowserEnvironment(env);
   }
 
-  const envConfig = await getEnvConfig({ env, environmentsJsonFilePath });
+  const envConfig = browserEnvironment?.config ?? await getEnvConfig({ env, environmentsJsonFilePath });
 
-  if (!envConfig) {
+  if (envConfig) {
+    setBrowserEnvironment(env, envConfig);
+  } else {
     clearStoredEnvironment();
     throw new Error(`Couldn't load browser environments`);
   }
