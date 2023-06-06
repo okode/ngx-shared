@@ -7,7 +7,11 @@ import { join } from 'path';
 import { requestContext } from './interceptors/request-context';
 import { responseLogger } from './interceptors/response-logger';
 import { AppServerModule } from '../src/main.server';
-import { ENVIRONMENT, ENVIRONMENT_CONFIG, initServerMultiEnvironmentApp } from '@okode/multienvironment';
+import {
+  ENVIRONMENT,
+  ENVIRONMENT_CONFIG,
+  initServerMultiEnvironmentApp,
+} from '@okode/multienvironment';
 
 export class Server {
   private server: Application;
@@ -17,8 +21,7 @@ export class Server {
   private env?: string;
   private envConfig?: unknown;
 
-  constructor(
-  ) {
+  constructor() {
     this.server = express();
     this.server.use(compression());
     this.server.use(requestContext);
@@ -27,13 +30,11 @@ export class Server {
   }
 
   async run() {
-    const { env, envConfig } = await initServerMultiEnvironmentApp(
-      {
-        envVar: 'APP_ENVIRONMENT',
-        defaultEnv: 'pro',
-        distFolder: this.distFolder
-      }
-    );
+    const { env, envConfig } = await initServerMultiEnvironmentApp({
+      envVar: 'APP_ENVIRONMENT',
+      defaultEnv: 'pro',
+      distFolder: this.distFolder,
+    });
     this.env = env;
     this.envConfig = envConfig;
     this.server.listen(this.port, () => {
