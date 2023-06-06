@@ -1,6 +1,6 @@
-import { getEnvConfig } from "./get-env-config";
-import { GetEnvironmentsService } from "./get-environments";
-import { showActionSheet } from "../components/show-action-sheet";
+import { getEnvConfig } from './get-env-config';
+import { GetEnvironmentsService } from './get-environments';
+import { showActionSheet } from '../components/show-action-sheet';
 
 const ENVIRONMENT_STORAGE_KEY = 'OKCD_APPLICATION_ENVIRONMENT';
 
@@ -36,7 +36,9 @@ function clearStoredEnvironment() {
 
 function getBrowserEnvironment() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (window as any).okcdApplicationEnvironment as { env: string; config: Record<string, unknown>} | undefined;
+  return (window as any).okcdApplicationEnvironment as
+    | { env: string; config: Record<string, unknown> }
+    | undefined;
 }
 
 function setBrowserEnvironment(env: string, config: Record<string, unknown>) {
@@ -52,7 +54,7 @@ export async function initMultiEnvironmentApp({ environmentsJsonFilePath }: { en
     env = await showEnvironmentOptions(environmentsJsonFilePath);
   }
 
-  const envConfig = browserEnvironment?.config ?? await getEnvConfig(env);
+  const envConfig = browserEnvironment?.config ?? (await getEnvConfig(env));
 
   if (envConfig) {
     setBrowserEnvironment(env, envConfig);

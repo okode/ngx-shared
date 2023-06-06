@@ -1,4 +1,4 @@
-import { DEFAULT_ENVIRONMENT_JSON_FILE_PATH } from "../constants/environments.constants";
+import { DEFAULT_ENVIRONMENT_JSON_FILE_PATH } from '../constants/environments.constants';
 
 export class GetEnvironmentsService {
   private static environmentsDataMap = new Map<string, Record<string, unknown>>();
@@ -18,6 +18,6 @@ export class GetEnvironmentsService {
         }
         this.environmentsDataMap.set(envsJsonFilePath, environments);
         return environments;
-    });
+      });
   }
 }

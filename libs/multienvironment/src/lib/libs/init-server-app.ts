@@ -1,4 +1,4 @@
-import { getServerEnvConfig } from "./get-server-env-config";
+import { getServerEnvConfig } from './get-server-env-config';
 
 export async function initServerMultiEnvironmentApp({
   envVar,

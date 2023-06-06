@@ -1,5 +1,5 @@
-import { readFileSync } from "fs";
-import { DEFAULT_ENVIRONMENT_JSON_FILE_PATH } from "../constants/environments.constants";
+import { readFileSync } from 'fs';
+import { DEFAULT_ENVIRONMENT_JSON_FILE_PATH } from '../constants/environments.constants';
 
 export async function getServerEnvironments(distPath: string, environmentsJsonFilePath?: string) {
   const environmentsPath = environmentsJsonFilePath ?? DEFAULT_ENVIRONMENT_JSON_FILE_PATH;

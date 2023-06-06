@@ -26,8 +26,8 @@ export async function showActionSheet(options: string[]) {
       const buttonElement = document.createElement('button');
       buttonElement.innerText = env;
       buttonElement.style.cssText = buttonStyles;
-      buttonElement.onmouseover = () => buttonElement.style.color = '#212CB2';
-      buttonElement.onmouseleave = () => buttonElement.style.color = '#4B71EB';
+      buttonElement.onmouseover = () => (buttonElement.style.color = '#212CB2');
+      buttonElement.onmouseleave = () => (buttonElement.style.color = '#4B71EB');
       buttonElement.addEventListener('click', () => selectOption(env));
       actionSheet.appendChild(buttonElement);
     });
