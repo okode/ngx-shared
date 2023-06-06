@@ -8,7 +8,7 @@ export const appRoutes: Route[] = [
     component: HomePageComponent,
   },
   {
-    path: '/router',
+    path: 'router',
     component: RouterPageComponent,
   },
 ];
