@@ -8,7 +8,7 @@ import { ENVIRONMENT_CONFIG } from "./tokens/environment-config.token";
     {
       provide: APP_INITIALIZER,
       useFactory: (injector: Injector) => () =>
-        injector.get(ServerMultiEnvironmentConfigService ).init({ env: injector.get(ENVIRONMENT), envConfig: injector.get(ENVIRONMENT_CONFIG) }),
+        injector.get(ServerMultiEnvironmentConfigService).init({ env: injector.get(ENVIRONMENT), envConfig: injector.get(ENVIRONMENT_CONFIG) }),
       deps: [Injector],
       multi: true,
     }
