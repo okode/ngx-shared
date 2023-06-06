@@ -1,4 +1,4 @@
-import { getServerEnvironments } from "./get-server-environments.service";
+import { getServerEnvironments } from "./get-server-environments";
 
 export async function getServerEnvConfig({
   env,

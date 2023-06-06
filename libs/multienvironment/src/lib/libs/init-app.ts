@@ -1,11 +1,11 @@
-import { getEnvConfig } from "./get-env-config.service";
-import { getEnvironments } from "./get-environments.service";
-import { showActionSheet } from "../ux/show-action-sheet";
+import { getEnvConfig } from "./get-env-config";
+import { GetEnvironmentsService } from "./get-environments";
+import { showActionSheet } from "../components/show-action-sheet";
 
 const ENVIRONMENT_STORAGE_KEY = 'OKCD_APPLICATION_ENVIRONMENT';
 
 async function showEnvironmentOptions(environmentsJsonFilePath?: string) {
-  const environments = await getEnvironments(environmentsJsonFilePath);
+  const environments = await GetEnvironmentsService.get(environmentsJsonFilePath);
   const envKeys = Object.keys(environments);
   if (envKeys.length === 1) {
     const environment = envKeys[0];
@@ -46,12 +46,13 @@ function setBrowserEnvironment(env: string, config: Record<string, unknown>) {
 
 export async function initMultiEnvironmentApp({ environmentsJsonFilePath }: { environmentsJsonFilePath?: string; }) {
   const browserEnvironment = getBrowserEnvironment();
+
   let env = browserEnvironment?.env;
   if (!env) {
-    env = await showEnvironmentOptions();
+    env = await showEnvironmentOptions(environmentsJsonFilePath);
   }
 
-  const envConfig = browserEnvironment?.config ?? await getEnvConfig({ env, environmentsJsonFilePath });
+  const envConfig = browserEnvironment?.config ?? await getEnvConfig(env);
 
   if (envConfig) {
     setBrowserEnvironment(env, envConfig);

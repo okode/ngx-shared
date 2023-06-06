@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, Injector, NgModule } from "@angular/core";
-import { ServerMultiEnvironmentConfigService } from "./config/server-multienvironment-config.service";
+import { ServerMultiEnvironmentConfigService } from "./services/server-multienvironment-config.service";
 import { ENVIRONMENT } from "./tokens/environment-name.token";
 import { ENVIRONMENT_CONFIG } from "./tokens/environment-config.token";
 
