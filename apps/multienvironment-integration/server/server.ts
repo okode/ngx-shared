@@ -7,8 +7,7 @@ import { join } from 'path';
 import { requestContext } from './interceptors/request-context';
 import { responseLogger } from './interceptors/response-logger';
 import { AppServerModule } from '../src/main.server';
-import { ENVIRONMENT_CONFIG } from '@okode/multienvironment';
-import { ENVIRONMENT, initServerMultiEnvironmentApp } from '@okode/multienvironment';
+import { ENVIRONMENT, ENVIRONMENT_CONFIG, initServerMultiEnvironmentApp } from '@okode/multienvironment';
 
 export class Server {
   private server: Application;
