@@ -34,8 +34,6 @@ function clearStoredEnvironment() {
   localStorage.removeItem(ENVIRONMENT_STORAGE_KEY);
 }
 
-
-
 function getBrowserEnvironment() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (window as any).okcdApplicationEnvironment;
