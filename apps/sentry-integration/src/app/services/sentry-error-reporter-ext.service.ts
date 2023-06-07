@@ -23,7 +23,7 @@ export class SentryErrorReporterServiceExt extends SentryErrorReporterService {
       return;
     }
 
-    const extractedError = this.buildError(error);
+    const extractedError = this.buildError(error + ': integration test error');
 
     if (this.isIE()) {
       this.sendCustomError(SentryErrorReporterService.IE_ERROR_CODE, extractedError);
@@ -36,7 +36,9 @@ export class SentryErrorReporterServiceExt extends SentryErrorReporterService {
     } else {
       this.sentry$.subscribe(s => {
         const scope = new s.Scope();
-        scope.setTag('customError.errorType','ERROR.CUSTOM'
+        scope.setTag(
+          SentryErrorReporterService.TAGS.errorType,
+          SentryErrorReporterService.ERROR_TYPE_TAG_VALUES.error
         );
         scope.setContext(SentryErrorReporterService.CONTEXT_FIELDS.rawError, { detail: error });
         s.captureException(extractedError, scope);
