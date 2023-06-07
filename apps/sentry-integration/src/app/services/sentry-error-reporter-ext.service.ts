@@ -8,7 +8,6 @@ import { SENTRY_CONFIG, SentryConfig, SentryErrorReporterService } from '@okode/
 })
 export class SentryErrorReporterServiceExt extends SentryErrorReporterService {
 
-  //REVIEW
   constructor(
     @Inject(INJECTOR) injector: Injector,
     @Inject(PLATFORM_ID) platformId: string,
@@ -37,9 +36,7 @@ export class SentryErrorReporterServiceExt extends SentryErrorReporterService {
     } else {
       this.sentry$.subscribe(s => {
         const scope = new s.Scope();
-        scope.setTag(
-          SentryErrorReporterService.TAGS.errorType,
-          SentryErrorReporterService.ERROR_TYPE_TAG_VALUES.error
+        scope.setTag('customError.errorType','ERROR.CUSTOM'
         );
         scope.setContext(SentryErrorReporterService.CONTEXT_FIELDS.rawError, { detail: error });
         s.captureException(extractedError, scope);
