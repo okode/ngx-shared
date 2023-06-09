@@ -11,6 +11,15 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 * **PF-141:** Sentry library improvements ([#5](https://github.com/okode/ngx-shared/issues/5)) ([5c16265](https://github.com/okode/ngx-shared/commit/5c162656d59a600c6ff556b21686796b84da4ef2))
 * **PF-34:** multienvironment library and integration ([#4](https://github.com/okode/ngx-shared/issues/4)) ([0601f40](https://github.com/okode/ngx-shared/commit/0601f40d1859ae11cfe78054e1b570842f6edb59))
 
+## [0.2.0](https://github.com/okode/ngx-shared/compare/0.1.2...0.2.0) (2023-06-09)
+
+
+### Features
+
+* add sentry dist config option ([15f4cee](https://github.com/okode/ngx-shared/commit/15f4cee69436c475120afe450561f5016ae70407))
+* **PF-141:** Sentry library improvements ([#5](https://github.com/okode/ngx-shared/issues/5)) ([5c16265](https://github.com/okode/ngx-shared/commit/5c162656d59a600c6ff556b21686796b84da4ef2))
+* **PF-34:** multienvironment library and integration ([#4](https://github.com/okode/ngx-shared/issues/4)) ([0601f40](https://github.com/okode/ngx-shared/commit/0601f40d1859ae11cfe78054e1b570842f6edb59))
+
 ## [0.1.2](https://github.com/okode/ngx-shared/compare/0.1.1...0.1.2) (2023-04-28)
 
 
