@@ -1,0 +1,47 @@
+{
+  "name": "multienvironment",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/multienvironment/src",
+  "prefix": "ngx-shared",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/multienvironment/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/multienvironment/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/multienvironment/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/multienvironment/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/multienvironment/**/*.ts", "libs/multienvironment/**/*.html"]
+      }
+    }
+  }
+}

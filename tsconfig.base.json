@@ -17,6 +17,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@okode/multienvironment": ["libs/multienvironment/src/index.ts"],
       "@okode/ngx-sentry": ["libs/sentry/src/index.ts"],
       "@okode/ngx-testing-kit": ["libs/testing-kit/src/index.ts"],
       "@okode/ngx-testing-kit/setup": ["libs/testing-kit/src/test-setup.ts"],

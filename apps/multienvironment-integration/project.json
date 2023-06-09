@@ -1,0 +1,147 @@
+{
+  "name": "multienvironment-integration",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "ngx-shared",
+  "sourceRoot": "apps/multienvironment-integration/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/multienvironment-integration/browser",
+        "index": "apps/multienvironment-integration/src/index.html",
+        "main": "apps/multienvironment-integration/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/multienvironment-integration/tsconfig.app.json",
+        "assets": [
+          "apps/multienvironment-integration/src/favicon.ico",
+          "apps/multienvironment-integration/src/assets",
+          "apps/multienvironment-integration/src/selected-environments.json"
+        ],
+        "styles": ["apps/multienvironment-integration/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "multienvironment-integration:build:production"
+        },
+        "development": {
+          "browserTarget": "multienvironment-integration:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "multienvironment-integration:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/multienvironment-integration/**/*.ts",
+          "apps/multienvironment-integration/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/multienvironment-integration/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "server": {
+      "dependsOn": ["build"],
+      "executor": "@angular-devkit/build-angular:server",
+      "options": {
+        "outputPath": "dist/apps/multienvironment-integration/server",
+        "main": "apps/multienvironment-integration/server.ts",
+        "tsConfig": "apps/multienvironment-integration/tsconfig.server.json"
+      },
+      "configurations": {
+        "production": {
+          "outputHashing": "media"
+        },
+        "development": {
+          "optimization": false,
+          "sourceMap": true,
+          "extractLicenses": false
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve-ssr": {
+      "executor": "@nguniversal/builders:ssr-dev-server",
+      "configurations": {
+        "development": {
+          "browserTarget": "multienvironment-integration:build:development",
+          "serverTarget": "multienvironment-integration:server:development"
+        },
+        "production": {
+          "browserTarget": "multienvironment-integration:build:production",
+          "serverTarget": "multienvironment-integration:server:production"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "prerender": {
+      "executor": "@nguniversal/builders:prerender",
+      "options": {
+        "routes": ["/"]
+      },
+      "configurations": {
+        "development": {
+          "browserTarget": "multienvironment-integration:build:development",
+          "serverTarget": "multienvironment-integration:server:development"
+        },
+        "production": {
+          "browserTarget": "multienvironment-integration:build:production",
+          "serverTarget": "multienvironment-integration:server:production"
+        }
+      },
+      "defaultConfiguration": "production"
+    }
+  }
+}
