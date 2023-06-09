@@ -422,4 +422,21 @@ describe('SentryErrorReporterService', () => {
       }));
     });
   });
+
+  describe('setUserScope', () => {
+    it('should configure scope with the given user', fakeAsync(() => {
+      const spectator = createService({
+        providers: [{ provide: SENTRY_CONFIG, useValue: sentryConfigMock }],
+      });
+      mockPlatform('browser');
+      mockSentryInit();
+
+      const configureScope = jest.spyOn(Sentry, 'configureScope');
+
+      spectator.service.setUserScope({id: 'user1'})
+      flushMicrotasks();
+
+      expect(configureScope).toHaveBeenCalled();
+    }));
+  });
 });

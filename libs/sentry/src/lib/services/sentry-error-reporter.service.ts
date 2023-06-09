@@ -1,5 +1,6 @@
 import { DOCUMENT, isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { User } from '@sentry/angular-ivy';
 import { Inject, Injectable, Injector, INJECTOR, PLATFORM_ID } from '@angular/core';
 import { from } from 'rxjs';
 import { filter, shareReplay } from 'rxjs/operators';
@@ -36,13 +37,14 @@ const defaultDenyUrls: ReadonlyArray<RegExp> = [
   providedIn: 'root',
 })
 export class SentryErrorReporterService {
-  private static readonly IE_ERROR_CODE = 'INTERNET_EXPLORER_ERROR';
-  private static readonly CONTEXT_FIELDS = {
+
+  protected static readonly IE_ERROR_CODE = 'INTERNET_EXPLORER_ERROR';
+  protected static readonly CONTEXT_FIELDS = {
     rawError: 'customctx.rawError',
     httpReq: 'customctx.httpRequest',
     httpRes: 'customctx.httpResponse',
   } as const;
-  private static readonly TAGS = {
+  protected static readonly TAGS = {
     errorType: 'customctx.errorType',
     customErrorCode: 'customctx.customErrorCode',
     httpError: {
@@ -51,7 +53,7 @@ export class SentryErrorReporterService {
       status: 'customctx.httpError.status',
     },
   } as const;
-  private static readonly ERROR_TYPE_TAG_VALUES = {
+  protected static readonly ERROR_TYPE_TAG_VALUES = {
     server: 'SERVER_ERROR',
     customError: 'CUSTOM_ERROR',
     error: 'ERROR',
@@ -60,10 +62,10 @@ export class SentryErrorReporterService {
   readonly sentry$ = from(this.initSentry()).pipe(filter(Boolean), shareReplay(1));
 
   constructor(
-    @Inject(INJECTOR) private readonly injector: Injector,
-    @Inject(PLATFORM_ID) private readonly platformId: string,
-    @Inject(DOCUMENT) private readonly document: Document,
-    @Inject(SENTRY_CONFIG) private readonly sentryConfig: SentryConfig
+    @Inject(INJECTOR) protected readonly injector: Injector,
+    @Inject(PLATFORM_ID) protected platformId: string,
+    @Inject(DOCUMENT) protected readonly document: Document,
+    @Inject(SENTRY_CONFIG) protected readonly sentryConfig: SentryConfig
   ) {}
 
   sendError(error: unknown) {
@@ -150,6 +152,10 @@ export class SentryErrorReporterService {
     }
   }
 
+  setUserScope(sentryUserScope: User) {
+    this.sentry$.subscribe(s => s.configureScope(scope => scope.setUser(sentryUserScope)));
+  }
+
   protected buildError(errorCandidate: unknown) {
     let error = errorCandidate;
     // Try to unwrap zone.js error.
@@ -234,6 +240,25 @@ export class SentryErrorReporterService {
     console.error(`${new Date().toISOString()} [ DEBUG - CUSTOM ERROR ] [${errorCode}] ${JSON.stringify(error)}`);
   }
 
+  protected isIE() {
+    return (
+      isPlatformBrowser(this.platformId) &&
+      ('ActiveXObject' in window || /MSIE|Trident/.test(window.navigator.userAgent))
+    );
+  }
+
+  protected getDenyUrls() {
+    if (!this.sentryConfig.denyUrlsConfig) {
+      return defaultDenyUrls as RegExp[];
+    }
+
+    const urls = this.sentryConfig.denyUrlsConfig.useDefaultUrls ? defaultDenyUrls : [];
+    return [
+      ...urls,
+      ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? []),
+    ];
+  }
+
   private async initSentry() {
     if (isPlatformServer(this.platformId)) {
       return null;
@@ -274,25 +299,7 @@ export class SentryErrorReporterService {
       tracesSampleRate: this.sentryConfig.tracesSampleRate,
       integrations,
     });
-    return sentry;
-  }
 
-  private isIE() {
-    return (
-      isPlatformBrowser(this.platformId) &&
-      ('ActiveXObject' in window || /MSIE|Trident/.test(window.navigator.userAgent))
-    );
-  }
-
-  private getDenyUrls() {
-    if (!this.sentryConfig.denyUrlsConfig) {
-      return defaultDenyUrls as RegExp[];
-    }
-
-    const urls = this.sentryConfig.denyUrlsConfig.useDefaultUrls ? defaultDenyUrls : [];
-    return [
-      ...urls,
-      ...(this.sentryConfig.denyUrlsConfig.additionalUrls ?? []),
-    ];
+   return sentry;
   }
 }
