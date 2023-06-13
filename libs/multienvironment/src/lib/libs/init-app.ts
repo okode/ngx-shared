@@ -51,7 +51,7 @@ export async function initMultiEnvironmentApp(opts?: { environmentsJsonFilePath?
 
   let env = browserEnvironment?.env;
   if (!env) {
-    env = await showEnvironmentOptions(opts: { environmentsJsonFilePath });
+    env = await showEnvironmentOptions(opts?.environmentsJsonFilePath);
   }
 
   const envConfig = browserEnvironment?.config ?? (await getEnvConfig(env));
