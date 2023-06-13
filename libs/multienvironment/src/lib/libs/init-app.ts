@@ -46,12 +46,12 @@ function setBrowserEnvironment(env: string, config: Record<string, unknown>) {
   (window as any).okcdApplicationEnvironment = { env, config };
 }
 
-export async function initMultiEnvironmentApp({ environmentsJsonFilePath }: { environmentsJsonFilePath?: string; }) {
+export async function initMultiEnvironmentApp(opts?: { environmentsJsonFilePath?: string; }) {
   const browserEnvironment = getBrowserEnvironment();
 
   let env = browserEnvironment?.env;
   if (!env) {
-    env = await showEnvironmentOptions(environmentsJsonFilePath);
+    env = await showEnvironmentOptions(opts?.environmentsJsonFilePath);
   }
 
   const envConfig = browserEnvironment?.config ?? (await getEnvConfig(env));

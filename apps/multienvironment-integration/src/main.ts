@@ -12,7 +12,7 @@ function init() {
 }
 
 async function bootstrapApp() {
-  const { env, envConfig } = await initMultiEnvironmentApp({});
+  const { env, envConfig } = await initMultiEnvironmentApp();
   platformBrowserDynamic([
     { provide: ENVIRONMENT, useValue: env },
     { provide: ENVIRONMENT_CONFIG, useValue: envConfig },
