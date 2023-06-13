@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.3.0](https://github.com/okode/ngx-shared/compare/0.2.0...0.3.0) (2023-06-13)
+
+
+### Features
+
+* **initMulti:** initMultiEnvironmentApp with options ([#7](https://github.com/okode/ngx-shared/issues/7)) ([f3f2e57](https://github.com/okode/ngx-shared/commit/f3f2e57a49bf02d6eca6d1ea90789c583cbf7d1f))
+
 ## [0.2.0](https://github.com/okode/ngx-shared/compare/0.1.2...0.2.0) (2023-06-09)
 
 
