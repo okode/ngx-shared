@@ -17,8 +17,7 @@
         "tsConfig": "apps/multienvironment-integration/tsconfig.app.json",
         "assets": [
           "apps/multienvironment-integration/src/favicon.ico",
-          "apps/multienvironment-integration/src/assets",
-          "apps/multienvironment-integration/src/selected-environments.json"
+          "apps/multienvironment-integration/src/assets"
         ],
         "styles": ["apps/multienvironment-integration/src/styles.scss"],
         "scripts": []
