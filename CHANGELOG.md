@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.4.0](https://github.com/okode/ngx-shared/compare/0.3.0...0.4.0) (2023-06-27)
+
+
+### Features
+
+* added background color to button ([#8](https://github.com/okode/ngx-shared/issues/8)) ([09cd9da](https://github.com/okode/ngx-shared/commit/09cd9da9c7c84e09d19738af9d46092facc57573))
+
 ## [0.3.0](https://github.com/okode/ngx-shared/compare/0.2.0...0.3.0) (2023-06-13)
 
 
