@@ -59,7 +59,8 @@ const buttonStyles = `cursor: pointer;
     border-top: 1px solid rgb(198, 198, 198);
     font-size: 17px;
     color: #4B71EB;
-    padding: 20px;`;
+    padding: 20px;
+    background-color: #F0F0F0;`;
 
 const selectTextStyles = `
     font-family: Arial, Helvetica, sans-serif;
